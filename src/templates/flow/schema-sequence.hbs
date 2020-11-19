@@ -1,0 +1,14 @@
+    {{! TODO: print annotations as comments in the right location }}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'element'}}{{>schemaElementAttribute}}{{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'group'}}
+        TODO: sequence.group
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'all'}}
+        TODO: sequence.all
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'choice'}}
+        TODO: sequence.choice
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'any'}}
+        TODO: sequence.any
+    {{/eachOfType}}

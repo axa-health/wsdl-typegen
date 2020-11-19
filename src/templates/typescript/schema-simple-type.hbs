@@ -1,0 +1,54 @@
+{{! TODO: print annotations as comments in the right location }}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'restriction'}}
+    {{typeName $.base.value this}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
+        TODO: simpleType.restriction.simpleType
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'minExclusive'}}
+        TODO: simpleType.restriction.minExclusive
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'minInclusive'}}
+        TODO: simpleType.restriction.minInclusive
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'maxExclusive'}}
+        TODO: simpleType.restriction.maxExclusive
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'maxInclusive'}}
+        TODO: simpleType.restriction.maxInclusive
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'totalDigits'}}
+        TODO: simpleType.restriction.totalDigits
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'fractionDigits'}}
+        TODO: simpleType.restriction.fractionDigits
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'length'}}
+        TODO: simpleType.restriction.length
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'minLength'}}
+        {{! not supported by flow}}
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'maxLength'}}
+        {{! not supported by flow}}
+    {{/eachOfType}}
+    {{#hasChildOfType  $children 'http://www.w3.org/2001/XMLSchema' 'enumeration'}}
+        &
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'enumeration'}}
+            {{! TODO: data type }}
+            '{{$.value.value}}'{{#unless @last}} |{{/unless}}
+        {{/eachOfType}}
+    {{/hasChildOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'whiteSpace'}}
+        TODO: simpleType.restriction.whiteSpace
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'pattern'}}
+        TODO: simpleType.restriction.pattern
+    {{/eachOfType}}
+    ;
+{{/eachOfType}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'list'}}
+    TODO: simpleType.list
+{{/eachOfType}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'union'}}
+    TODO: simpleType.union
+{{/eachOfType}}

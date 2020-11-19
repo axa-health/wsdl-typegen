@@ -1,0 +1,3 @@
+{{! TODO: print annotations as comments in the right location }}
+{{! TODO: this suffixing is a bit shitty but needed because an element might be named the same as a complexType or simpleType... }}
+export type {{$.name.value}}_element = {{>schemaElementContent}};

@@ -1,0 +1,12 @@
+{{! 
+We use this as a partial to keep indentation... 
+See https://stackoverflow.com/questions/25689618/how-to-make-handlebars-keep-indentation-when-replacing-a-multi-line-value 
+}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'annotation'}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'appinfo'}}
+{{{asComment _}}}
+    {{/eachOfType}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'documentation'}}
+{{{asComment _}}}
+    {{/eachOfType}}
+{{/eachOfType}}

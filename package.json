@@ -1,0 +1,56 @@
+{
+  "name": "@axah/wsdl-typegen",
+  "version": "0.0.5",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "npm-run-all -p dev:*",
+    "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec yarn build:templates-flow",
+    "dev:templates-typescript": "nodemon --watch src/templates/typescript -e hbs --exec yarn build:templates-typescript",
+    "dev:run": "nodemon --watch src -e ts,hbs node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl'",
+    "build": "npm-run-all build:clean build:templates-flow build:templates-typescript build:lib",
+    "build:clean": "rimraf lib",
+    "build:templates-flow": "handlebars src/templates/flow -c handlebars/runtime -e hbs -f src/templates/flow.js",
+    "build:templates-typescript": "handlebars src/templates/typescript -c handlebars/runtime -e hbs -f src/templates/typescript.js",
+    "build:lib": "tsc --build tsconfig.build.json",
+    "lint": "tsc --noEmit && eslint .",
+    "prepublishOnly": "yarn build",
+    "test-typescript": "node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl' && tsc --noEmit"
+  },
+  "dependencies": {
+    "camelcase": "^6.2.0",
+    "chokidar": "^3",
+    "commander": "^6.2.0",
+    "glob": "^7.1.3",
+    "handlebars": "^4.0.12",
+    "prettier": "^2.1.2",
+    "soap": "^0.35.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "@types/camelcase": "^5.2.0",
+    "@types/chokidar": "^2.1.3",
+    "@types/commander": "^2.12.2",
+    "@types/glob": "^7.1.3",
+    "@types/node": "^14.14.8",
+    "@types/xml2js": "^0.4.6",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
+    "nodemon": "^2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3",
+    "ts-jest": "^26.3.0",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.2"
+  }
+}

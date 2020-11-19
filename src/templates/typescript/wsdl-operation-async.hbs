@@ -1,0 +1,10 @@
+{{operationName}}Async: (
+    input: {{inputType}} | { _xml: string },
+    options?: { [key: string]: any; },
+    extraHeaders?: { [key: string]: any; },
+) => Promise<[
+    {{outputType}}, 
+    string, 
+    Object, 
+    string
+]>,

@@ -1,0 +1,13 @@
+{{! TODO: Should type the error based on the soap faults... }}
+{{operationName}}: (
+    input: {{inputType}} | { _xml: string },
+    cb: (
+        err: any | null | undefined,
+        result: {{outputType}},
+        rawResponse: string,
+        soapHeader: { [key: string]: any; },
+        rawRequest: string
+    ) => void,
+    options?: { [key: string]: any; },
+    extraHeaders?: { [key: string]: any; },
+) => void,

@@ -1,0 +1,6 @@
+lib/
+node_modules/
+src/templates/**/*.js
+test/wsdl/**/*.js
+yarn-error.log
+wsdl-typegen-*.tgz

@@ -1,0 +1,31 @@
+{{#ifOptional $ '1'}}?{{/ifOptional}}
+{{#ifArray $ '1'}}$ReadOnlyArray<{{/ifArray}}
+{{#if $.fixed}}
+{{! TODO: data type handling and do not display the type...}}
+{{$.fixed.value}}
+{{else}}
+    {{#if $.type}}
+        {{typeName $.type.value this}}
+    {{else}}
+        {{#hasNoChild $children}}
+        {||}
+        {{else}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
+        TODO: simpleType
+        {{/eachOfType}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'complexType'}}
+        {{>schemaComplexType}}
+        {{/eachOfType}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'unique'}}
+        TODO: unique
+        {{/eachOfType}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'key'}}
+        TODO: key
+        {{/eachOfType}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'keyref'}}
+        TODO: keyref
+        {{/eachOfType}} 
+        {{/hasNoChild}}
+    {{/if}} 
+{{/if}}
+{{#ifArray $ '1'}}>{{/ifArray}}

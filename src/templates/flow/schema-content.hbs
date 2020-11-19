@@ -1,0 +1,17 @@
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'import'}}
+{{#registerImport this}}
+import * as {{importName}} from '{{importPath}}.js';
+{{/registerImport}}
+{{/eachOfType}}
+
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'element'}}
+{{>schemaElementType}}
+{{/eachOfType}}
+
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'complexType'}}
+export type {{$.name.value}} = {{>schemaComplexType}}
+{{/eachOfType}}
+
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
+export type {{$.name.value}} = {{>schemaSimpleType}}
+{{/eachOfType}}

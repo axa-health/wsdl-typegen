@@ -1,0 +1,70 @@
+// @flow
+{{>wsdlDocumentation}}
+
+{{! TODO: move to top because imports...}}
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'types'}}
+{{{inlineSchema this}}}
+{{/eachOfType}}
+
+export type Security = {|
+    addOptions?: ?(options: Object) => void,
+    addHeaders?: ?(headers: Object) => void,
+    toXML: () => string,
+    postProcess?: ?(xml: string, envelopeKey: string) => string,
+|};
+
+export type Client = {|
+    {{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'service'}}
+    {{$.name.value}}: {{$.name.value}},
+    {{/eachOfType}}
+
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'binding'}}
+    {{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'operation'}}
+    {{>wsdlDocumentation}}
+        {{#withInputOutputAndFaults this}}
+    {{>wsdlOperationSync}}
+    {{>wsdlOperationAsync}}
+        {{/withInputOutputAndFaults}}
+    {{/eachOfType}}
+{{/eachOfType}}
+    {{! TODO: the other properties of a client... }}
+    describe: () => Object,
+    setSecurity: (security: Security) => void,
+    addSoapHeader: (soapHeader: any, name?: string, namespace?: any, xmlns?: string) => number,
+    changeSoapHeader: (index: number, soapHeader: any, name?: string, namespace?: string, xmlns?: string) => void,
+    clearSoapHeaders: () => void,
+    getSoapHeaders: () => string[];
+    lastRequest: Object,
+    setEndpoint: (endpoint: string) => void,
+    on: ((event: 'request', callback: (xml: string, eid: string) => void) => void)
+        | ((event: 'message', callback: (message: string, eid: string) => void) => void)
+        | ((event: 'soapError', callback: (error: Object, eid: string) => void) => void)
+        | ((event: 'response', callback: (body: string, res: Object, eid: string) => void) => void),
+|};
+
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'service'}}
+export type {{$.name.value}} = {|
+    {{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'port'}}
+    {{$.name.value}}: {{localPart $.binding.value}},
+    {{/eachOfType}}
+|};
+{{/eachOfType}}
+
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'binding'}}
+export type {{$.name.value}} = {|
+    {{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'operation'}}
+        {{>wsdlDocumentation}}
+        {{#withInputOutputAndFaults this}}
+        {{>wsdlOperationSync}}
+        {{/withInputOutputAndFaults}}
+    {{/eachOfType}}
+|};
+{{/eachOfType}}
+
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'message'}}
+{{#eachOfType $children 'http://schemas.xmlsoap.org/wsdl/' 'part'}}
+export type {{../$.name.value}}__{{$.name.value}} =
+        {{typeName $.element.value this}}_element
+;
+{{/eachOfType}}
+{{/eachOfType}}

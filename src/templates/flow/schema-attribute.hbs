@@ -1,0 +1,14 @@
+{{#if $ref}}
+TODO: attribute.ref
+{{else}}
+{{$.name.value}}{{#ifAttributeOptional this}}?{{/ifAttributeOptional}}:
+    {{! TODO: fixed might be a number... }}
+    {{#if $.fixed}}
+        {{#ifAttributeOptional this}}?{{/ifAttributeOptional}}'{{$.fixed.value}}',
+    {{else}}
+        {{#ifAttributeOptional this}}?{{/ifAttributeOptional}}{{#if $.type}}{{typeName $.type.value this}},{{/if}}
+    {{/if}}
+    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
+        TODO: attribute.simpleType
+    {{/eachOfType}}
+{{/if}}
