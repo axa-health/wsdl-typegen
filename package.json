@@ -1,9 +1,9 @@
 {
   "name": "@axah/wsdl-typegen",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "index.js",
   "license": "MIT",
-  "bin": "lib/index.js",
+  "bin": "lib/src/index.js",
   "files": [
     "lib"
   ],
