@@ -4,7 +4,7 @@
     TODO: simpleContent
 {{/eachOfType}}
 {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'complexContent'}}
-    {{! TODO: print annotations as comments in the right location }}
+{{! TODO: print annotations as comments in the right location }}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'restriction'}}
         {
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'group'}}
@@ -16,8 +16,8 @@
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'choice'}}
             TODO: choice
         {{/eachOfType}}
-        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'sequence'}}{{>schemaSequence}}{{/eachOfType}}
-        {{>schemaAttributes}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'sequence'}}{{> schemaSequence ~}}{{/eachOfType}}
+        {{> schemaAttributes ~}}
         }
     {{/eachOfType}}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'extension'}}
@@ -32,8 +32,8 @@
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'choice'}}
             TODO: extension.choice
         {{/eachOfType}}
-        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'sequence'}}{{>schemaSequence}}{{/eachOfType}}
-        {{>schemaAttributes}}
+        {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'sequence'}}{{> schemaSequence ~}}{{/eachOfType}}
+        {{> schemaAttributes ~}}
         }
     {{/eachOfType}}
 {{/eachOfType}}
@@ -47,8 +47,8 @@
     TODO: choice
 {{/eachOfType}}
 {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'sequence'}}
-{
-{{>schemaSequence}}
-{{>schemaAttributes}}
-}
+    {
+    {{> schemaSequence ~}}
+    {{> schemaAttributes ~}}
+    }
 {{/eachOfType}}

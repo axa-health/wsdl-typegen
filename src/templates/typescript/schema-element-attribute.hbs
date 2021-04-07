@@ -1,7 +1,6 @@
 {{! TODO: print annotations as comments in the right location }}
-{{#if $.ref.value}}
-    {{localPartNoValidation $.ref.value}}{{#ifOptional $ '1'}}?{{/ifOptional}}: {{#ifArray $ '1'}}ReadonlyArray
-            <{{/ifArray}}{{typeName $.ref.value this}}_element{{#ifArray $ '1'}}>{{/ifArray}};
+{{#if $.ref.value ~}}
+    {{localPartNoValidation $.ref.value}}{{#ifOptional $ '1' ~}}?{{/ifOptional ~}}: {{#ifArray $ '1' ~}}ReadonlyArray<{{/ifArray ~}}{{typeName $.ref.value this}}_element{{#ifArray $ '1' ~}}>{{/ifArray ~}};
 {{else}}
-    {{$.name.value}}{{#ifOptional $ '1'}}?{{/ifOptional}}: {{>schemaElementContent}};
-{{/if}}
+    {{$.name.value}}{{#ifOptional $ '1' ~}}?{{/ifOptional ~}}: {{> schemaElementContent ~}};
+{{/if ~}}

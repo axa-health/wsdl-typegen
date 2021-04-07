@@ -9,7 +9,6 @@ import { promisify } from 'util';
 import chokidar from 'chokidar';
 import prettier from 'prettier';
 import Handlebars from 'handlebars/runtime';
-import packageJson from '../package.json';
 import hasNoRequiredAttributes from './helpers/has-no-required-attributes';
 import createInlineSchemaHelper from './helpers/inline-schema';
 import typeName from './helpers/type-name';
@@ -28,7 +27,7 @@ import ifOptional from './helpers/if-optional';
 const glob = promisify(globRaw);
 
 commander
-  .version(packageJson.version)
+  .version('0.0.11')
   .command('generate <wsdl...>')
   .option('-w, --watch', 'Watch for changes')
   .option('-t, --typescript', 'Use Typescript instead of flow')
@@ -44,7 +43,7 @@ commander
     const wsdlTpl = Handlebars.templates.wsdl;
     const schemaTpl = Handlebars.templates.schema;
     const inlineSchemaTpl = Handlebars.templates['schema-content'];
-    Object.keys(Handlebars.templates).forEach(key => {
+    Object.keys(Handlebars.templates).forEach((key) => {
       Handlebars.registerPartial(camelcase(key), Handlebars.templates[key]);
     });
 
@@ -76,7 +75,7 @@ commander
         .on('change', async () => {
           await processFile(file, type, true); // eslint-disable-line no-use-before-define
         })
-        .on('error', e => {
+        .on('error', (e) => {
           throw new Error(`Watcher threw error ${e}`);
         });
     }
@@ -98,7 +97,7 @@ commander
         await fs.readFile(file, { encoding: 'utf8' }),
         async (_, rn) => {
           try {
-            rn.$children.forEach(child => addRootAndParent(child, rn, rn));
+            rn.$children.forEach((child) => addRootAndParent(child, rn, rn));
             rn.$$imports = {}; // eslint-disable-line no-param-reassign
             let templateFn;
             let targetNamespaceAlias;
@@ -129,7 +128,7 @@ commander
               templateFn = wsdlTpl;
 
               const targetNsDefinition = Object.keys(rn.$).find(
-                nsDefinition =>
+                (nsDefinition) =>
                   nsDefinition.startsWith('xmlns:') &&
                   rn.$[nsDefinition].value === rn.$.targetNamespace.value,
               );
@@ -159,7 +158,7 @@ commander
             const helpers = {
               localPart,
               localPartNoValidation,
-              inlineSchema: createInlineSchemaHelper(child =>
+              inlineSchema: createInlineSchemaHelper((child) =>
                 inlineSchemaTpl(child, { helpers }),
               ),
               ifAttributeOptional(attribute, options) {
@@ -188,7 +187,7 @@ commander
                     byQName('http://schemas.xmlsoap.org/wsdl/', 'portType'),
                   )
                   .find(
-                    child =>
+                    (child) =>
                       child.$.name.value === localPart(binding.$.type.value),
                   );
                 const operation = portType.$children
@@ -196,7 +195,7 @@ commander
                     byQName('http://schemas.xmlsoap.org/wsdl/', 'operation'),
                   )
                   .find(
-                    child =>
+                    (child) =>
                       child.$.name.value === bindingOperation.$.name.value,
                   );
 
@@ -211,7 +210,7 @@ commander
                     byQName('http://schemas.xmlsoap.org/wsdl/', 'message'),
                   )
                   .find(
-                    message =>
+                    (message) =>
                       message.$.name.value ===
                       localPart(operationInput.$.message.value),
                   );
@@ -220,7 +219,7 @@ commander
                     byQName('http://schemas.xmlsoap.org/wsdl/', 'message'),
                   )
                   .find(
-                    message =>
+                    (message) =>
                       message.$.name.value ===
                       localPart(operationOutput.$.message.value),
                   );
@@ -247,12 +246,12 @@ commander
                 const inputParts = soapBodyInput.$.parts
                   ? soapBodyInput.$.parts.value
                       .split(' ')
-                      .map(partName =>
+                      .map((partName) =>
                         inputMessage.$children
                           .filter(
                             byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
                           )
-                          .find(part => part.$.name.value === partName),
+                          .find((part) => part.$.name.value === partName),
                       )
                   : inputMessage.$children.filter(
                       byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
@@ -260,12 +259,12 @@ commander
                 const outputParts = soapBodyOutput.$.parts
                   ? soapBodyOutput.$.parts.value
                       .split(' ')
-                      .map(partName =>
+                      .map((partName) =>
                         outputMessage.$children
                           .filter(
                             byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
                           )
-                          .find(part => part.$.name.value === partName),
+                          .find((part) => part.$.name.value === partName),
                       )
                   : outputMessage.$children.filter(
                       byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
@@ -297,7 +296,7 @@ commander
                 }
 
                 const binding = port.$$root.$children.find(
-                  child =>
+                  (child) =>
                     child.$ns.local === 'binding' &&
                     child.$ns.uri === 'http://schemas.xmlsoap.org/wsdl/' &&
                     child.$.name.value === bindingNameLocal,
@@ -315,7 +314,7 @@ commander
                 }
 
                 const portType = port.$$root.$children.find(
-                  child =>
+                  (child) =>
                     child.$ns.local === 'portType' &&
                     child.$ns.uri === 'http://schemas.xmlsoap.org/wsdl/' &&
                     child.$.name.value === portTypeNameLocal,
@@ -329,7 +328,7 @@ commander
               eachOfType,
               asComment,
               ifOptional,
-              registerImport: createRegisterImport(relativePath => {
+              registerImport: createRegisterImport((relativePath) => {
                 processFile(path.resolve(file, '..', relativePath), 'schema');
               }),
               hasAttributes,
@@ -363,7 +362,7 @@ commander
         const matched = await glob(wsdl);
 
         await Promise.all(
-          matched.map(async matchedFile => {
+          matched.map(async (matchedFile) => {
             const absPath = path.resolve(matchedFile);
             await processFile(absPath, 'wsdl');
           }),
@@ -372,10 +371,10 @@ commander
         if (command.watch) {
           chokidar
             .watch(wsdl)
-            .on('add', async file => {
+            .on('add', async (file) => {
               await processFile(file, 'wsdl', true);
             })
-            .on('error', e => {
+            .on('error', (e) => {
               throw new Error(`Watcher threw error ${e}`);
             });
         }

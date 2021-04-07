@@ -1,14 +1,15 @@
-{{#if $ref}}
-TODO: attribute.ref
+{{#if $ref ~}}
+    TODO: attribute.ref
 {{else}}
-{{$.name.value}}{{#ifAttributeOptional this}}?{{/ifAttributeOptional}}:
-    {{! TODO: fixed might be a number... }}
-    {{#if $.fixed}}
-        '{{$.fixed.value}}'{{#ifAttributeOptional this}}| null | undefined{{/ifAttributeOptional}};
-    {{else}}
-        {{#if $.type}}{{typeName $.type.value this}}{{#ifAttributeOptional this}}| null | undefined{{/ifAttributeOptional}};{{/if}}
-    {{/if}}
-    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
-        TODO: attribute.simpleType
-    {{/eachOfType}}
-{{/if}}
+    {{$.name.value}}{{#ifAttributeOptional this ~}}?{{/ifAttributeOptional ~}}:
+{{! TODO: fixed might be a number... }}
+{{#if $.fixed ~}}
+    '{{$.fixed.value}}'{{#ifAttributeOptional this ~}}| null | undefined{{/ifAttributeOptional ~}};
+{{else}}
+{{#if $.type ~}}{{typeName $.type.value this}}{{#ifAttributeOptional
+        this}}| null | undefined{{/ifAttributeOptional}};{{/if}}
+{{/if ~}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType'}}
+    TODO: attribute.simpleType
+{{/eachOfType}}
+{{/if ~}}

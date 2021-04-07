@@ -26,25 +26,25 @@
         TODO: simpleType.restriction.length
     {{/eachOfType}}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'minLength'}}
-        {{! not supported by flow}}
+    {{! not supported by flow}}
     {{/eachOfType}}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'maxLength'}}
-        {{! not supported by flow}}
+    {{! not supported by flow}}
     {{/eachOfType}}
     {{#hasChildOfType  $children 'http://www.w3.org/2001/XMLSchema' 'enumeration'}}
         &
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'enumeration'}}
-            {{! TODO: data type }}
+        {{! TODO: data type }}
             '{{$.value.value}}'{{#unless @last}} |{{/unless}}
-        {{/eachOfType}}
-    {{/hasChildOfType}}
-    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'whiteSpace'}}
-        TODO: simpleType.restriction.whiteSpace
-    {{/eachOfType}}
-    {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'pattern'}}
-        TODO: simpleType.restriction.pattern
-    {{/eachOfType}}
-    ;
+{{/eachOfType}}
+{{/hasChildOfType}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'whiteSpace'}}
+    TODO: simpleType.restriction.whiteSpace
+{{/eachOfType}}
+{{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'pattern'}}
+    TODO: simpleType.restriction.pattern
+{{/eachOfType}}
+;
 {{/eachOfType}}
 {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'list'}}
     TODO: simpleType.list

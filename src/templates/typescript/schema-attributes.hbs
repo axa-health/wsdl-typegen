@@ -1,10 +1,10 @@
 {{#hasAttributes this}}
     attributes{{#hasNoRequiredAttributes this}}?{{/hasNoRequiredAttributes}}: {
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'attribute'}}
-        {{>schemaAttribute}}
+        {{> schemaAttribute ~}}
     {{/eachOfType}}
     {{#eachOfType $$parent.$children 'http://www.w3.org/2001/XMLSchema' 'attribute'}}
-        {{>schemaAttribute}}
+        {{> schemaAttribute ~}}
     {{/eachOfType}}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'attributeGroup'}}
         TODO: attributeGroup
