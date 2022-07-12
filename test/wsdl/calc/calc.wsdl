@@ -15,6 +15,21 @@
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://Example.org" elementFormDefault="qualified" >
+  <xsd:complexType name="Operation">
+      <xsd:sequence/>
+      <xsd:attribute name="symbol" type="xsd:string"/>
+      <xsd:attribute name="fullDescription" type="xsd:string"/>
+      <xsd:attribute name="errorCode" type="xsd:long"/>
+  </xsd:complexType>
+  <xsd:element name="Operation" type="tns:Operation"/>
+  <xsd:complexType name="AddOperation">
+      <xsd:complexContent>
+          <xsd:restriction base="tns:Operation">
+              <xsd:attribute name="symbol" type="xsd:string" fixed="Add Operation" use="required"/>
+              <xsd:attribute name="errorCode" type="xsd:long" fixed="12" use="required"/>
+          </xsd:restriction>
+      </xsd:complexContent>
+  </xsd:complexType>        
   <xsd:element name="Add">
     <xsd:complexType>
       <xsd:sequence>
