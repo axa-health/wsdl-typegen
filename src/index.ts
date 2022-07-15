@@ -23,6 +23,7 @@ import hasNoChild from './helpers/has-no-child';
 import eachOfType from './helpers/each-of-type';
 import asComment from './helpers/as-comment';
 import ifOptional from './helpers/if-optional';
+import isStringType from './helpers/is-string-type';
 
 const glob = promisify(globRaw);
 
@@ -322,6 +323,7 @@ commander
 
                 return options.fn({ portType });
               },
+              isStringType,
               ifArray,
               hasChildOfType,
               hasNoChild,

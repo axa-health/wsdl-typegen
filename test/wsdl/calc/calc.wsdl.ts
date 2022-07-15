@@ -1,5 +1,6 @@
 import { Client as SoapClient } from 'soap';
 
+export type Operation_element = Operation;
 export type Add_element = {
   a?: number | null | undefined;
   b?: number | null | undefined;
@@ -13,6 +14,20 @@ export type Subtract_element = {
 };
 export type SubtractResponse_element = {
   result?: number | null | undefined;
+};
+
+export type Operation = {
+  attributes?: {
+    symbol?: string | null | undefined;
+    fullDescription?: string | null | undefined;
+    errorCode?: number | null | undefined;
+  };
+};
+export type AddOperation = Operation & {
+  attributes: {
+    symbol: 'Add Operation';
+    errorCode: 12;
+  };
 };
 
 export interface Client extends SoapClient {
@@ -37,7 +52,6 @@ export interface Client extends SoapClient {
   ) => Promise<
     [ICalculator_Add_OutputMessage__parameters, string, Object, string]
   >;
-
   Subtract: (
     input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
     cb: (

@@ -2,9 +2,9 @@
     TODO: attribute.ref
 {{else}}
     {{$.name.value}}{{#ifAttributeOptional this ~}}?{{/ifAttributeOptional ~}}:
-{{! TODO: fixed might be a number... }}
 {{#if $.fixed ~}}
-    '{{$.fixed.value}}'{{#ifAttributeOptional this ~}}| null | undefined{{/ifAttributeOptional ~}};
+    {{#isStringType $.type.value this}}'{{/isStringType}}{{$.fixed.value}}{{#isStringType $.type.value this}}'{{/isStringType}}
+    {{#ifAttributeOptional this ~}}| null | undefined{{/ifAttributeOptional ~}};
 {{else}}
 {{#if $.type ~}}{{typeName $.type.value this}}{{#ifAttributeOptional
         this}}| null | undefined{{/ifAttributeOptional}};{{/if}}

@@ -6,7 +6,7 @@
 {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'complexContent'}}
 {{! TODO: print annotations as comments in the right location }}
     {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'restriction'}}
-        {
+        {{typeName $.base.value this ~}} & {
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'group'}}
             TODO: group
         {{/eachOfType}}
