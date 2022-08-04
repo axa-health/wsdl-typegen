@@ -10,7 +10,9 @@
         {}
         {{else}}
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'simpleType' ~}}
-        TODO: simpleType
+            {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'restriction' ~}}
+                {{typeName $.base.value this ~}}
+            {{/eachOfType ~}}
         {{/eachOfType ~}}
         {{#eachOfType $children 'http://www.w3.org/2001/XMLSchema' 'complexType' ~}}
         {{> schemaComplexType ~}}
