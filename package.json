@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "dev": "npm-run-all -p dev:*",
-    "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec yarn build:templates-flow",
-    "dev:templates-typescript": "nodemon --watch src/templates/typescript -e hbs --exec yarn build:templates-typescript",
+    "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec pnpm build:templates-flow",
+    "dev:templates-typescript": "nodemon --watch src/templates/typescript -e hbs --exec pnpm build:templates-typescript",
     "dev:run": "nodemon --watch src -e ts,hbs node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl'",
     "build": "npm-run-all build:clean build:templates-flow build:templates-typescript build:lib build:copy",
     "build:clean": "rimraf lib",
@@ -19,7 +19,7 @@
     "build:lib": "tsc --build tsconfig.build.json",
     "build:copy": "copyfiles -f ./src/templates/* lib/templates/",
     "lint": "tsc --noEmit && eslint .",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "pnpm build",
     "test-typescript": "node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl' && tsc --noEmit"
   },
   "dependencies": {
