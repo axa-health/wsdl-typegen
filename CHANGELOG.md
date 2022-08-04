@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 1.0.2
+
+### Patch Changes
+
+- 3a94c8e: fix: add release script to package.json
+
 ## 1.0.1
 
 ### Patch Changes
