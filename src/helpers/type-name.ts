@@ -14,6 +14,7 @@ export default function typeName(qName: string, el: any) {
         return 'string';
       case 'long':
       case 'int':
+      case 'short':
       case 'decimal':
       case 'integer':
         return 'number';
