@@ -7,6 +7,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "npm-run-all -p dev:*",
     "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec pnpm build:templates-flow",
