@@ -23,6 +23,9 @@ export type Operation = {
     errorCode?: number | null | undefined;
   };
 };
+export type Error = {
+  Code: number;
+};
 export type AddOperation = Operation & {
   attributes: {
     symbol: 'Add Operation';

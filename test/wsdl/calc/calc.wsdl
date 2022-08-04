@@ -21,6 +21,15 @@
       <xsd:attribute name="fullDescription" type="xsd:string"/>
       <xsd:attribute name="errorCode" type="xsd:long"/>
   </xsd:complexType>
+  <xsd:complexType name="Error">
+    <xsd:sequence>      
+    <xsd:element name="Code" minOccurs="1" maxOccurs="1">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:short"/>
+      </xsd:simpleType>
+    </xsd:element>  
+    </xsd:sequence>
+  </xsd:complexType>
   <xsd:element name="Operation" type="tns:Operation"/>
   <xsd:complexType name="AddOperation">
       <xsd:complexContent>
