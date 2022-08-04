@@ -23,7 +23,8 @@
     "build:copy": "copyfiles -f ./src/templates/* lib/templates/",
     "lint": "tsc --noEmit && eslint .",
     "prepublishOnly": "pnpm build",
-    "test-typescript": "node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl' && tsc --noEmit"
+    "test-typescript": "node_modules/.bin/ts-node-dev src/index.ts generate -t 'test/**/*.wsdl' && tsc --noEmit",
+    "release": "pnpm build && pnpm changeset publish"
   },
   "dependencies": {
     "camelcase": "^6.2.0",
