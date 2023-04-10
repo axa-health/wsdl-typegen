@@ -34,7 +34,7 @@
     "handlebars": "^4.7.7",
     "prettier": "^2.2.1",
     "soap": "^0.36.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.5.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.24.1",
