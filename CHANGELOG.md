@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 1.0.3
+
+### Patch Changes
+
+- 3e15823: Bugfix/enable typegen if output is not defined in wsdl
+
 ## 1.0.2
 
 ### Patch Changes
