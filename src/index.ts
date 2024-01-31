@@ -27,6 +27,56 @@ import isStringType from './helpers/is-string-type';
 
 const glob = promisify(globRaw);
 
+const extractOperationMessages = ({
+  operation,
+  type,
+  bindingOperation,
+  localPart,
+}: {
+  operation: any;
+  type: 'output' | 'input';
+  bindingOperation: any;
+  localPart: (qname: string) => string;
+}): string | unknown => {
+  const operationByType = operation.$children.find(
+    byQName('http://schemas.xmlsoap.org/wsdl/', type),
+  );
+  if (!operationByType) {
+    return 'unknown';
+  }
+  const operationMessage = bindingOperation.$$root.$children
+    .filter(byQName('http://schemas.xmlsoap.org/wsdl/', 'message'))
+    .find(
+      (message) =>
+        message.$.name.value === localPart(operationByType.$.message.value),
+    );
+
+  const binding = bindingOperation.$children.find(
+    byQName('http://schemas.xmlsoap.org/wsdl/', type),
+  );
+  const soapBody = binding.$children.find(
+    byQName('http://schemas.xmlsoap.org/wsdl/soap/', 'body'),
+  );
+  if (soapBody.$.use.value !== 'literal') {
+    throw new Error("Only soap:body#use='literal' is supported");
+  }
+  const parts = soapBody.$.parts
+    ? soapBody.$.parts.value
+        .split(' ')
+        .map((partName) =>
+          operationMessage.$children
+            .filter(byQName('http://schemas.xmlsoap.org/wsdl/', 'part'))
+            .find((part) => part.$.name.value === partName),
+        )
+    : operationMessage.$children.filter(
+        byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
+      );
+  if (parts.length !== 1) {
+    throw new Error(`Only one ${type} part is supported`);
+  }
+  return `${operationMessage.$.name.value}__${parts[0].$.name.value}`;
+};
+
 commander
   .version('0.0.11')
   .command('generate <wsdl...>')
@@ -191,6 +241,7 @@ commander
                     (child) =>
                       child.$.name.value === localPart(binding.$.type.value),
                   );
+
                 const operation = portType.$children
                   .filter(
                     byQName('http://schemas.xmlsoap.org/wsdl/', 'operation'),
@@ -199,89 +250,23 @@ commander
                     (child) =>
                       child.$.name.value === bindingOperation.$.name.value,
                   );
-
-                const operationInput = operation.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/', 'input'),
-                );
-                const operationOutput = operation.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/', 'output'),
-                );
-                const inputMessage = bindingOperation.$$root.$children
-                  .filter(
-                    byQName('http://schemas.xmlsoap.org/wsdl/', 'message'),
-                  )
-                  .find(
-                    (message) =>
-                      message.$.name.value ===
-                      localPart(operationInput.$.message.value),
-                  );
-                const outputMessage = bindingOperation.$$root.$children
-                  .filter(
-                    byQName('http://schemas.xmlsoap.org/wsdl/', 'message'),
-                  )
-                  .find(
-                    (message) =>
-                      message.$.name.value ===
-                      localPart(operationOutput.$.message.value),
-                  );
-                const bindingInput = bindingOperation.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/', 'input'),
-                );
-                const bindingOutput = bindingOperation.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/', 'output'),
-                );
-                const soapBodyInput = bindingInput.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/soap/', 'body'),
-                );
-                const soapBodyOutput = bindingOutput.$children.find(
-                  byQName('http://schemas.xmlsoap.org/wsdl/soap/', 'body'),
-                );
-
-                if (soapBodyInput.$.use.value !== 'literal') {
-                  throw new Error("Only soap:body#use='literal' is supported");
-                }
-                if (soapBodyOutput.$.use.value !== 'literal') {
-                  throw new Error("Only soap:body#use='literal' is supported");
-                }
-
-                const inputParts = soapBodyInput.$.parts
-                  ? soapBodyInput.$.parts.value
-                      .split(' ')
-                      .map((partName) =>
-                        inputMessage.$children
-                          .filter(
-                            byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
-                          )
-                          .find((part) => part.$.name.value === partName),
-                      )
-                  : inputMessage.$children.filter(
-                      byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
-                    );
-                const outputParts = soapBodyOutput.$.parts
-                  ? soapBodyOutput.$.parts.value
-                      .split(' ')
-                      .map((partName) =>
-                        outputMessage.$children
-                          .filter(
-                            byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
-                          )
-                          .find((part) => part.$.name.value === partName),
-                      )
-                  : outputMessage.$children.filter(
-                      byQName('http://schemas.xmlsoap.org/wsdl/', 'part'),
-                    );
-
-                if (inputParts.length !== 1) {
-                  throw new Error('Only one input part is supported');
-                }
-                if (outputParts.length !== 1) {
-                  throw new Error('Only one output part is supported');
-                }
+                const inputType = extractOperationMessages({
+                  operation,
+                  type: 'input',
+                  bindingOperation,
+                  localPart,
+                });
+                const outputType = extractOperationMessages({
+                  operation,
+                  type: 'output',
+                  bindingOperation,
+                  localPart,
+                });
 
                 return options.fn({
                   operationName: bindingOperation.$.name.value,
-                  inputType: `${inputMessage.$.name.value}__${inputParts[0].$.name.value}`,
-                  outputType: `${outputMessage.$.name.value}__${outputParts[0].$.name.value}`,
+                  inputType,
+                  outputType,
                 });
               },
               withPortType(port, options) {
