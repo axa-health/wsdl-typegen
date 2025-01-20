@@ -15,6 +15,7 @@
     "import/no-unused-modules": [1, {"unusedExports": true}],
     "import/prefer-default-export": 1,
     "import/no-cycle": 1,
+    "@typescript-eslint/no-explicit-any": 0,
     "import/extensions": [
       "error",
       "always",

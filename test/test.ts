@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars, camelcase */
+/* eslint-disable @typescript-eslint/no-unused-vars, camelcase */
 
 // assert Client is exposed
 import { Client, DefaultBinding_ICalculator } from './wsdl/calc/calc.wsdl';
 import { Maybe } from '../src/utils/types';
 
 // assert Client has correct shape
-// eslint-disable-next-line no-unused-vars
-
 const binding: DefaultBinding_ICalculator = {
   Add(
     input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },

@@ -1,6 +1,6 @@
 lib/
 node_modules/
 src/templates/**/*.js
-test/wsdl/**/*.js
+test/wsdl/**/*.ts
 yarn-error.log
 wsdl-typegen-*.tgz
