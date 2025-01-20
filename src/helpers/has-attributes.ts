@@ -2,7 +2,7 @@ export default function hasAttributes(el: any, options: any) {
   if (
     (el.$children &&
       el.$children.some(
-        child =>
+        (child) =>
           child.$ns.uri === 'http://www.w3.org/2001/XMLSchema' &&
           ['attribute', 'anyAttribute', 'attributeGroup'].indexOf(
             child.$ns.local,
@@ -10,7 +10,7 @@ export default function hasAttributes(el: any, options: any) {
       )) ||
     (el.$$parent.$children &&
       el.$$parent.$children.some(
-        child =>
+        (child) =>
           child.$ns.uri === 'http://www.w3.org/2001/XMLSchema' &&
           ['attribute', 'anyAttribute', 'attributeGroup'].indexOf(
             child.$ns.local,

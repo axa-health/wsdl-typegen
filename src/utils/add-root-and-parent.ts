@@ -7,7 +7,7 @@ export default function addRootAndParent(
   child.$$parent = parent; // eslint-disable-line no-param-reassign
 
   if (child.$children) {
-    child.$children.forEach(subchild =>
+    child.$children.forEach((subchild) =>
       addRootAndParent(subchild, root, child),
     );
   }

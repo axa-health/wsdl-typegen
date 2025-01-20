@@ -3,9 +3,8 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import { Parser } from 'xml2js';
 import camelcase from 'camelcase';
-import commander from 'commander';
-import globRaw from 'glob';
-import { promisify } from 'util';
+import { Command } from 'commander';
+import { glob } from 'glob';
 import chokidar from 'chokidar';
 import prettier from 'prettier';
 import Handlebars from 'handlebars/runtime';
@@ -25,7 +24,7 @@ import asComment from './helpers/as-comment';
 import ifOptional from './helpers/if-optional';
 import isStringType from './helpers/is-string-type';
 
-const glob = promisify(globRaw);
+const programm = new Command();
 
 const extractOperationMessages = ({
   operation,
@@ -76,19 +75,18 @@ const extractOperationMessages = ({
   }
   return `${operationMessage.$.name.value}__${parts[0].$.name.value}`;
 };
-
-commander
-  .version('0.0.11')
+programm
+  .version('1.0.4')
   .command('generate <wsdl...>')
   .option('-w, --watch', 'Watch for changes')
   .option('-t, --typescript', 'Use Typescript instead of flow')
-  .action(async (wsdls: ReadonlyArray<string>, command: any) => {
+  .action(async (wsdls: ReadonlyArray<string>, command) => {
     const ext = command.typescript ? '.ts' : '.js';
     if (command.typescript) {
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line global-require,@typescript-eslint/no-require-imports
       require('./templates/typescript');
     } else {
-      // eslint-disable-next-line global-require
+      // eslint-disable-next-line global-require,@typescript-eslint/no-require-imports
       require('./templates/flow');
     }
     const wsdlTpl = Handlebars.templates.wsdl;
@@ -270,10 +268,8 @@ commander
                 });
               },
               withPortType(port, options) {
-                const [
-                  bindingNameNsAlias,
-                  bindingNameLocal,
-                ] = port.$.binding.value.split(':');
+                const [bindingNameNsAlias, bindingNameLocal] =
+                  port.$.binding.value.split(':');
 
                 if (bindingNameNsAlias !== targetNamespaceAlias) {
                   throw new Error(
@@ -288,10 +284,8 @@ commander
                     child.$.name.value === bindingNameLocal,
                 );
 
-                const [
-                  portTypeNameNsAlias,
-                  portTypeNameLocal,
-                ] = binding.$.type.value.split(':');
+                const [portTypeNameNsAlias, portTypeNameLocal] =
+                  binding.$.type.value.split(':');
 
                 if (portTypeNameNsAlias !== targetNamespaceAlias) {
                   throw new Error(
@@ -326,7 +320,7 @@ commander
             const result = templateFn(rn, { helpers });
             await fs.writeFile(
               `${file}${ext}`,
-              prettier.format(result, {
+              await prettier.format(result, {
                 ...(await prettier.resolveConfig(`${file}${ext}`)),
                 parser: command.typescript ? 'typescript' : 'babel',
               }),
@@ -370,14 +364,14 @@ commander
   });
 
 // error on unknown commands
-commander.on('command:*', () => {
-  commander.outputHelp();
+programm.on('command:*', () => {
+  programm.outputHelp();
   process.exit(1);
 });
 
-commander.parse(process.argv);
+programm.parse(process.argv);
 
-if (commander.args.length === 0) {
-  commander.outputHelp();
+if (programm.args.length === 0) {
+  programm.outputHelp();
   process.exit(1);
 }
