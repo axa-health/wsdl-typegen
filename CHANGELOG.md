@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 2.0.0
+
+### Major Changes
+
+- ba4daaf: Upgrade to use soap instead of @axah/soap
+
 ## 1.0.4
 
 ### Patch Changes
