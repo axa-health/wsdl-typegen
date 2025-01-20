@@ -14,28 +14,25 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
+        uses: pnpm/action-setup@v4
         id: pnpm-install
-        with:
-          version: 7.0.1
-          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -47,7 +44,7 @@ jobs:
         run: pnpm install
 
       - name: create and publish versions
-        uses: changesets/action@v1.3.0
+        uses: changesets/action@v1.4.9
         with:
           publish: pnpm release
         env:
