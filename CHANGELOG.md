@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 2.0.1
+
+### Patch Changes
+
+- 5b3b733: fix revert camelcase to 6.3.0 since its esm only
+
 ## 2.0.0
 
 ### Major Changes
