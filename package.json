@@ -28,7 +28,7 @@
     "release": "pnpm build && pnpm changeset publish"
   },
   "dependencies": {
-    "camelcase": "6.3.0",
+    "camelcase": "8.0.0",
     "chokidar": "^4.0.3",
     "commander": "^13.0.0",
     "glob": "^11.0.1",
