@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 2.1.1
+
+### Patch Changes
+
+- 0144306: fix imports
+
 ## 2.1.0
 
 ### Minor Changes
