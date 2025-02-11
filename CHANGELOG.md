@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 2.1.0
+
+### Minor Changes
+
+- 58901ce: correct type import/export
+
 ## 2.0.1
 
 ### Patch Changes
