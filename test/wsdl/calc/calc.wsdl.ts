@@ -1,4 +1,4 @@
-import { Client as SoapClient } from 'soap';
+import type { Client as SoapClient } from 'soap';
 
 export type Operation_element = Operation;
 export type Add_element = {
@@ -110,4 +110,5 @@ export type DefaultBinding_ICalculator = {
 export type ICalculator_Add_InputMessage__parameters = Add_element;
 export type ICalculator_Add_OutputMessage__parameters = AddResponse_element;
 export type ICalculator_Subtract_InputMessage__parameters = Subtract_element;
-export type ICalculator_Subtract_OutputMessage__parameters = SubtractResponse_element;
+export type ICalculator_Subtract_OutputMessage__parameters =
+  SubtractResponse_element;
