@@ -26,7 +26,7 @@ export default function createRegisterImport(
 
     return options.fn({
       importName: importEl.$$root.$$imports[importEl.$.namespace.value],
-      importPath: `${importPath}.js`,
+      importPath: `${importPath}`,
     });
   };
 }
