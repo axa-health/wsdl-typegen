@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 2.1.2
+
+### Patch Changes
+
+- 2e221db: add back .js extension
+
 ## 2.1.1
 
 ### Patch Changes
