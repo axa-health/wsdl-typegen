@@ -82,8 +82,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       soap:
-        specifier: ^1.1.7
-        version: 1.1.7
+        specifier: ^1.1.8
+        version: 1.1.8
       ts-jest:
         specifier: ^29.2.5
         version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.7)(node-notifier@8.0.2)(ts-node@10.9.2(@types/node@22.10.7)(typescript@5.7.3)))(typescript@5.7.3)
@@ -1270,8 +1270,8 @@ packages:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
 
-  form-data@4.0.1:
-    resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
+  form-data@4.0.2:
+    resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
     engines: {node: '>= 6'}
 
   formidable@3.5.2:
@@ -2380,9 +2380,9 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
 
-  soap@1.1.7:
-    resolution: {integrity: sha512-zKNMtlZhnqhW0jv5z8qVE5A/1Vw/HKXnIFe2bss8s/+tqub4uLU9r20A4mTfiluePHABvm7p2YQjyvFBJjIf9A==}
-    engines: {node: '>=14.0.0'}
+  soap@1.1.8:
+    resolution: {integrity: sha512-fDNGyGsPkQP3bZX/366Ud5Kpjo9mCMh7ZKYIc3uipBEPPM2ZqCNkv1Z2/w0qpzpYFLL7do8WWwVUAjAwuUe1AQ==}
+    engines: {node: '>=14.17.0'}
 
   source-map-support@0.5.13:
     resolution: {integrity: sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==}
@@ -3665,7 +3665,7 @@ snapshots:
   axios@1.7.9(debug@4.4.0):
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -4352,10 +4352,11 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  form-data@4.0.1:
+  form-data@4.0.2:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
 
   formidable@3.5.2:
@@ -5654,7 +5655,7 @@ snapshots:
 
   slash@3.0.0: {}
 
-  soap@1.1.7:
+  soap@1.1.8:
     dependencies:
       axios: 1.7.9(debug@4.4.0)
       axios-ntlm: 1.4.3(debug@4.4.0)
