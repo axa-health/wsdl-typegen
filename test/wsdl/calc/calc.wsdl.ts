@@ -52,9 +52,7 @@ export interface Client extends SoapClient {
     input: ICalculator_Add_InputMessage__parameters | { _xml: string },
     options?: { [key: string]: any },
     extraHeaders?: { [key: string]: any },
-  ) => Promise<
-    [ICalculator_Add_OutputMessage__parameters, string, Object, string]
-  >;
+  ) => Promise<[ICalculator_Add_OutputMessage__parameters, string, Object, string]>;
   Subtract: (
     input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
     cb: (
@@ -71,9 +69,7 @@ export interface Client extends SoapClient {
     input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
     options?: { [key: string]: any },
     extraHeaders?: { [key: string]: any },
-  ) => Promise<
-    [ICalculator_Subtract_OutputMessage__parameters, string, Object, string]
-  >;
+  ) => Promise<[ICalculator_Subtract_OutputMessage__parameters, string, Object, string]>;
 }
 
 export type CalculatorService = {
@@ -110,5 +106,4 @@ export type DefaultBinding_ICalculator = {
 export type ICalculator_Add_InputMessage__parameters = Add_element;
 export type ICalculator_Add_OutputMessage__parameters = AddResponse_element;
 export type ICalculator_Subtract_InputMessage__parameters = Subtract_element;
-export type ICalculator_Subtract_OutputMessage__parameters =
-  SubtractResponse_element;
+export type ICalculator_Subtract_OutputMessage__parameters = SubtractResponse_element;

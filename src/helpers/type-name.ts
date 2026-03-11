@@ -1,4 +1,4 @@
-import resolveNs from '../utils/resolve-ns';
+import resolveNs from '../utils/resolve-ns.js';
 
 export default function typeName(qName: string, el: any) {
   const [nsAlias, local] = qName.split(':');

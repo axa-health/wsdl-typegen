@@ -1,14 +1,10 @@
-export default function addRootAndParent(
-  child: any,
-  root: any,
-  parent: any,
-): void {
-  child.$$root = root; // eslint-disable-line no-param-reassign
-  child.$$parent = parent; // eslint-disable-line no-param-reassign
+export default function addRootAndParent(child: any, root: any, parent: any): void {
+  child.$$root = root;
+  child.$$parent = parent;
 
   if (child.$children) {
-    child.$children.forEach((subchild) =>
-      addRootAndParent(subchild, root, child),
-    );
+    for (const subchild of child.$children) {
+      addRootAndParent(subchild, root, child);
+    }
   }
 }

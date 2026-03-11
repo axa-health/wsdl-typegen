@@ -1,11 +1,6 @@
-import byQName from '../utils/qname-comparator';
+import byQName from '../utils/qname-comparator.js';
 
-export default function eachOfType(
-  children: any,
-  nsUri: string,
-  local: string,
-  options: any,
-) {
+export default function eachOfType(children: any, nsUri: string, local: string, options: any) {
   if (!children) {
     return '';
   }

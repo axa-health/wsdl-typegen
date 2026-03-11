@@ -1,5 +1,5 @@
 export default function resolveNs(nsAlias: string, el: any) {
-  if (el.$ && el.$[`xmlns:${nsAlias}`]) {
+  if (el.$?.[`xmlns:${nsAlias}`]) {
     return el.$[`xmlns:${nsAlias}`].value;
   }
 
