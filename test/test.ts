@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, camelcase */
 
-import type { Maybe } from '../src/utils/types.js';
 // assert Client is exposed
 import type { Client, DefaultBinding_ICalculator } from './wsdl/calc/calc.wsdl.js';
 
 // assert Client has correct shape
 const binding: DefaultBinding_ICalculator = {
   Add(
-    _input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
     _callback: (
       err: any,
-      result: { result?: Maybe<number> },
+      result: { result?: number | null | undefined },
       rawResponse: string,
       soapHeader: { [key: string]: any },
       rawRequest: string,
@@ -20,10 +19,10 @@ const binding: DefaultBinding_ICalculator = {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void {},
   Subtract(
-    _input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
     _callback: (
       err: any,
-      result: { result?: Maybe<number> },
+      result: { result?: number | null | undefined },
       rawResponse: string,
       soapHeader: { [key: string]: any },
       rawRequest: string,
@@ -40,22 +39,22 @@ const _client: Partial<Client> = {
   },
   ...binding,
   AddAsync(
-    _input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
     _options?: { [key: string]: any },
     _extraHeaders?: { [key: string]: any },
-  ): Promise<[{ result?: Maybe<number> }, string, { [key: string]: any }, string]> {
+  ): Promise<[{ result?: number | null | undefined }, string, { [key: string]: any }, string]> {
     return new Promise<
-      [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
+      [{ result?: number | null | undefined }, string, { [key: string]: any }, string]
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     >(() => {});
   },
   SubtractAsync(
-    _input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
     _options?: { [key: string]: any },
     _extraHeaders?: { [key: string]: any },
-  ): Promise<[{ result?: Maybe<number> }, string, { [key: string]: any }, string]> {
+  ): Promise<[{ result?: number | null | undefined }, string, { [key: string]: any }, string]> {
     return new Promise<
-      [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
+      [{ result?: number | null | undefined }, string, { [key: string]: any }, string]
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     >(() => {});
   },

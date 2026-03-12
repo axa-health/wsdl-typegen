@@ -1,8 +1,4 @@
-// If you are removing custom types, you can use a simple Utility type or string | undefined
-
-import type { Maybe } from '../utils/types.js';
-
-export default function asComment(text: Maybe<string>): string | undefined {
+export default function asComment(text: string | null | undefined): string | undefined {
   if (!text || !text.trim()) return undefined;
 
   const lines = text
