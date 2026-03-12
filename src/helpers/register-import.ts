@@ -1,29 +1,32 @@
+import { getRegistry } from '../utils/state.js';
+
 export default function createRegisterImport(onImport: (relativePath: string) => void) {
-  return function registerImport(importEl: any, options: any) {
-    if (arguments.length !== 2) {
-      throw new Error('Expected exactly two arguments');
-    }
+  return function registerImport(importEl: Element) {
+    const ns = importEl.getAttribute('namespace');
+    if (!ns) return null;
 
-    if (!importEl.$$root.$$imports[importEl.$.namespace.value]) {
-      importEl.$$root.$$imports[importEl.$.namespace.value] = `i${
-        Object.keys(importEl.$$root.$$imports).length
-      }`;
+    // Get the registry tied to this specific document
+    const registry = getRegistry(importEl.ownerDocument);
+
+    if (!registry[ns]) {
+      registry[ns] = `i${Object.keys(registry).length}`;
     } else {
-      return '';
+      return null;
     }
 
-    onImport(importEl.$.schemaLocation.value);
+    const schemaLocation = importEl.getAttribute('schemaLocation');
+    if (!schemaLocation) return null;
+
+    onImport(schemaLocation);
 
     const importPath =
-      importEl.$.schemaLocation.value.startsWith('/') ||
-      importEl.$.schemaLocation.value.startsWith('./') ||
-      importEl.$.schemaLocation.value.startsWith('../')
-        ? importEl.$.schemaLocation.value
-        : `./${importEl.$.schemaLocation.value}`;
+      schemaLocation.startsWith('.') || schemaLocation.startsWith('/')
+        ? schemaLocation
+        : `./${schemaLocation}`;
 
-    return options.fn({
-      importName: importEl.$$root.$$imports[importEl.$.namespace.value],
+    return {
+      importName: registry[ns],
       importPath: `${importPath}.js`,
-    });
+    };
   };
 }

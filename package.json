@@ -13,16 +13,11 @@
   },
   "scripts": {
     "dev": "npm-run-all -p dev:*",
-    "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec pnpm build:templates-flow",
-    "dev:templates-typescript": "nodemon --watch src/templates/typescript -e hbs --exec pnpm build:templates-typescript",
-    "dev:run": "nodemon --watch src -e ts,hbs --exec pnpm generate",
+    "dev:run": "nodemon --watch src -e ts --exec pnpm generate",
     "generate": "node-dev src/index.ts -- generate -t 'test/**/*.wsdl'",
-    "build": "npm-run-all build:clean build:templates-flow build:templates-typescript build:lib build:copy",
+    "build": "npm-run-all build:clean build:lib",
     "build:clean": "rimraf lib",
-    "build:templates-flow": "handlebars src/templates/flow -c handlebars/runtime -e hbs -f src/templates/flow.js",
-    "build:templates-typescript": "handlebars src/templates/typescript -c handlebars/runtime -e hbs -f src/templates/typescript.js",
     "build:lib": "tsc --build tsconfig.build.json",
-    "build:copy": "copyfiles -f ./src/templates/* lib/templates/",
     "lint": "tsc --noEmit && eslint .",
     "prepublishOnly": "pnpm build",
     "test-typescript": "tsx src/index.ts generate 'test/**/*.wsdl' && tsc --noEmit",
@@ -32,11 +27,10 @@
   "dependencies": {
     "@biomejs/js-api": "4.0.0",
     "@biomejs/wasm-nodejs": "2.4.6",
-    "camelcase": "9.0.0",
+    "@xmldom/xmldom": "^0.8.11",
     "chokidar": "5.0.0",
     "commander": "14.0.3",
     "glob": "13.0.6",
-    "handlebars": "4.7.8",
     "xml2js": "0.6.2"
   },
   "devDependencies": {

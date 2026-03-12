@@ -1,22 +1,31 @@
-import resolveNs from '../utils/resolve-ns.js';
+import { getRegistry } from '../utils/state.js';
 
-export default function typeName(qName: string, el: any) {
-  const [nsAlias, local] = qName.split(':');
+const XSD_NS = 'http://www.w3.org/2001/XMLSchema';
 
-  const nsUri = resolveNs(nsAlias, el);
+export default function typeName(qName: string, el: Element): string {
+  const [prefix, local] = qName.includes(':') ? qName.split(':') : [null, qName];
 
-  if (nsUri === 'http://www.w3.org/2001/XMLSchema') {
+  // 1. Resolve the Namespace URI
+  // If no prefix, look up the default namespace (null)
+  const nsUri = prefix ? el.lookupNamespaceURI(prefix) : el.lookupNamespaceURI(null);
+
+  // 2. Handle built-in XSD types
+  if (nsUri === XSD_NS) {
     switch (local) {
       case 'string':
       case 'base64Binary':
       case 'token':
       case 'gYear':
+      case 'anyURI':
+      case 'QName':
         return 'string';
       case 'long':
       case 'int':
       case 'short':
       case 'decimal':
       case 'integer':
+      case 'double':
+      case 'float':
         return 'number';
       case 'boolean':
         return 'boolean';
@@ -24,21 +33,30 @@ export default function typeName(qName: string, el: any) {
       case 'dateTime':
       case 'time':
         return 'Date';
+      case 'anyType':
+        return 'any';
       default:
-        throw new Error(`Unknown built-in ${local} ${nsAlias}`);
+        return 'any';
     }
   }
 
-  // check for imported stuff
-  // this must go before targetNs as this might overrule it
-  if (el.$$root.$$imports[nsUri]) {
-    return `${el.$$root.$$imports[nsUri]}.${local}`;
+  // 3. Handle Imported Namespaces
+  // The importRegistry should map NS URIs to aliases (e.g., "http://schema.com" -> "i1")
+  const registry = getRegistry(el.ownerDocument);
+  if (nsUri && registry[nsUri]) {
+    return `${registry[nsUri]}.${local}`;
   }
 
-  // check for targetNameSpace
-  if (el.$$root.$.targetNamespace.value === nsUri) {
+  // 4. Handle Local/Target Namespace
+  // Jump directly to the document root via ownerDocument
+  const root = el.ownerDocument.documentElement;
+  const targetNamespace = root.getAttribute('targetNamespace');
+
+  // If the namespace matches the file's targetNamespace, it's a local reference
+  if (nsUri === targetNamespace || !nsUri) {
     return local;
   }
 
-  throw new Error(`Can't build typename for ${qName} ${nsUri}`);
+  throw new Error(`Can't build typename for "${qName}". Resolved Namespace: "${nsUri || 'none'}". 
+  Make sure the namespace is imported or defined in targetNamespace.`);
 }
