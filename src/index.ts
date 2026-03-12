@@ -32,6 +32,7 @@ biome.applyConfiguration(projectKey, {
       quoteStyle: 'single',
       attributePosition: 'auto',
       bracketSpacing: true,
+      expand: 'always',
     },
   },
   assist: { actions: { source: { organizeImports: 'on' } } },

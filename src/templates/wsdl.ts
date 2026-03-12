@@ -127,13 +127,13 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
         return [doc, operationSync(ctx), operationAsync(ctx)].filter((s): s is string => s != null);
       }),
     ),
-  ].join('\n');
+  ].join('');
 
   const serviceTypes = services.map((s) => {
     const ports = childrenNS(s, WSDL, 'port')
       .map((p) => `${p.getAttribute('name')}: ${localPart(p.getAttribute('binding') ?? '')},`)
-      .join('\n');
-    return `export type ${s.getAttribute('name')} = {\n${ports}\n}`;
+      .join('');
+    return `export type ${s.getAttribute('name')} = {${ports}};`;
   });
 
   const bindingTypes = resolvedBindings.map(({ binding, ops }) => {
@@ -142,14 +142,14 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
         if (!ctx) return [];
         return [doc, operationSync(ctx)].filter((s): s is string => s != null);
       })
-      .join('\n');
-    return `export type ${binding.getAttribute('name')} = {\n${body}\n}`;
+      .join('');
+    return `export type ${binding.getAttribute('name')} = {${body}};`;
   });
 
   const messageTypes = messages.flatMap((msg) =>
     childrenNS(msg, WSDL, 'part').map(
       (p) =>
-        `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} =\n${registry.typeName(p.getAttribute('element') ?? '', p)}_element;`,
+        `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} = ${registry.typeName(p.getAttribute('element') ?? '', p)}_element;`,
     ),
   );
 
@@ -157,11 +157,11 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     `import type { Client as SoapClient } from 'soap';`,
     wsdlDoc(root),
     ...inlineSchemas,
-    `export interface Client extends SoapClient {\n${clientBody}\n}`,
+    `export interface Client extends SoapClient {${clientBody}};`,
     ...serviceTypes,
     ...bindingTypes,
     ...messageTypes,
-  ].filter((s): s is string => s != null).join('\n');
+  ].filter((s): s is string => s != null).join('');
 }
 
 // ---- Helpers ----

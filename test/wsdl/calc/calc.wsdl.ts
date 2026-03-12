@@ -33,7 +33,11 @@ export type AddOperation = Operation & {
 export interface Client extends SoapClient {
   CalculatorService: CalculatorService;
   Add: (
-    input: ICalculator_Add_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Add_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     cb: (
       err: unknown,
       result: ICalculator_Add_OutputMessage__parameters,
@@ -45,14 +49,27 @@ export interface Client extends SoapClient {
     extraHeaders?: Record<string, unknown>,
   ) => void;
   AddAsync: (
-    input: ICalculator_Add_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Add_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     options?: Record<string, unknown>,
     extraHeaders?: Record<string, unknown>,
   ) => Promise<
-    [ICalculator_Add_OutputMessage__parameters, string, Record<string, unknown>, string]
+    [
+      ICalculator_Add_OutputMessage__parameters,
+      string,
+      Record<string, unknown>,
+      string,
+    ]
   >;
   Subtract: (
-    input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Subtract_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     cb: (
       err: unknown,
       result: ICalculator_Subtract_OutputMessage__parameters,
@@ -64,11 +81,20 @@ export interface Client extends SoapClient {
     extraHeaders?: Record<string, unknown>,
   ) => void;
   SubtractAsync: (
-    input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Subtract_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     options?: Record<string, unknown>,
     extraHeaders?: Record<string, unknown>,
   ) => Promise<
-    [ICalculator_Subtract_OutputMessage__parameters, string, Record<string, unknown>, string]
+    [
+      ICalculator_Subtract_OutputMessage__parameters,
+      string,
+      Record<string, unknown>,
+      string,
+    ]
   >;
 }
 export type CalculatorService = {
@@ -76,7 +102,11 @@ export type CalculatorService = {
 };
 export type DefaultBinding_ICalculator = {
   Add: (
-    input: ICalculator_Add_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Add_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     cb: (
       err: unknown,
       result: ICalculator_Add_OutputMessage__parameters,
@@ -88,7 +118,11 @@ export type DefaultBinding_ICalculator = {
     extraHeaders?: Record<string, unknown>,
   ) => void;
   Subtract: (
-    input: ICalculator_Subtract_InputMessage__parameters | { _xml: string },
+    input:
+      | ICalculator_Subtract_InputMessage__parameters
+      | {
+          _xml: string;
+        },
     cb: (
       err: unknown,
       result: ICalculator_Subtract_OutputMessage__parameters,

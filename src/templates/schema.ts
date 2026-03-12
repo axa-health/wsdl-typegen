@@ -19,7 +19,7 @@ function isOptional(minOccurs: string | null): boolean {
 
 /** Prepends a JSDoc comment line to a body string, or returns body as-is. */
 function withComment(comment: string | undefined, body: string): string {
-  return comment ? `${comment}\n${body}` : body;
+  return comment ? `${comment}${body}` : body;
 }
 
 // ---- Public entry point ----
@@ -34,16 +34,16 @@ export function renderSchema(root: Element, registry: SchemaRegistry): string {
     ...childrenNS(root, XSD, 'complexType').map((ct) =>
       withComment(
         extractAnnotation(ct),
-        `export type ${ct.getAttribute('name')} = ${complexType(ct, registry)}`,
+        `export type ${ct.getAttribute('name')} = ${complexType(ct, registry)};`,
       ),
     ),
     ...childrenNS(root, XSD, 'simpleType').map((st) =>
       withComment(
         extractAnnotation(st),
-        `export type ${st.getAttribute('name')} = ${simpleType(st, registry)}`,
+        `export type ${st.getAttribute('name')} = ${simpleType(st, registry)};`,
       ),
     ),
-  ].join('\n');
+  ].join('');
 }
 
 // ---- Element declarations ----
@@ -111,9 +111,9 @@ function complexType(el: Element, registry: SchemaRegistry): string {
   const complexContent = childrenNS(el, XSD, 'complexContent')[0];
   const attrs = attributes(el, registry);
 
-  if (seq) return `{\n${sequence(seq, registry)}\n${attrs}}`;
+  if (seq) return `{${sequence(seq, registry)}${attrs}}`;
   if (ch) return `${choice(ch, registry)}${attrs}`;
-  if (all) return `{\n${sequence(all, registry)}\n${attrs}}`;
+  if (all) return `{${sequence(all, registry)}${attrs}}`;
 
   const content = simpleContent ?? complexContent;
   if (content) {
@@ -126,14 +126,14 @@ function complexType(el: Element, registry: SchemaRegistry): string {
     }
   }
 
-  return attrs ? `{\n${attrs}}` : '{}';
+  return attrs ? `{${attrs}}` : '{}';
 }
 
 function sequence(el: Element, registry: SchemaRegistry): string {
   return [
     ...childrenNS(el, XSD, 'element').map((child) => elementProp(child, registry)),
     ...childrenNS(el, XSD, 'any').map(() => '[key: string]: unknown;'),
-  ].join('\n');
+  ].join('');
 }
 
 function choice(el: Element, registry: SchemaRegistry): string {
@@ -173,7 +173,7 @@ function contentModel(el: Element, registry: SchemaRegistry): string {
       }
     })
     .filter((s): s is string => s != null)
-    .join('\n');
+    .join('');
 }
 
 function groupRef(el: Element, registry: SchemaRegistry): string {
@@ -207,8 +207,8 @@ function attributes(el: Element, registry: SchemaRegistry): string {
         `${name}${opt ? '?' : ''}: ${registry.typeName(type, a)};`,
       );
     })
-    .join('\n');
-  return `attributes?: {\n${attrLines}\n},`;
+    .join('');
+  return `attributes?: {${attrLines}},`;
 }
 
 // ---- Simple types ----

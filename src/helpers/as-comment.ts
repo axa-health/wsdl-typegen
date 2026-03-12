@@ -9,8 +9,7 @@ export default function asComment(text: string | null | undefined): string | und
 
   if (lines.length === 0) return undefined;
 
-  // Single line: Render as a standard double-slash comment
-  if (lines.length === 1) return `// ${lines[0]}`;
+  if (lines.length === 1) return `/** ${lines[0]} */`;
 
   // Multi-line: Render as a JSDoc-style block comment
   return `/**\n${lines.map((l) => (l ? ` * ${l}` : ' *')).join('\n')}\n */`;
