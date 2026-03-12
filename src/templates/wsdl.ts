@@ -15,8 +15,6 @@ type ResolvedOp = {
   doc: string | undefined;
 };
 
-// ---- Public entry point ----
-
 export function renderWsdl(root: Element, registry: SchemaRegistry): string {
   const targetNs = root.getAttribute('targetNamespace') ?? '';
   const targetNsAlias =
@@ -24,7 +22,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
       (attr) => attr.name.startsWith('xmlns:') && attr.value === targetNs,
     )?.localName ?? '';
 
-  /** Extracts the local name from a QName, validating it belongs to the target namespace. */
   function localPart(qname: string): string {
     const colonIdx = qname.indexOf(':');
     if (colonIdx < 0) return qname;
@@ -34,10 +31,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     return qname.slice(colonIdx + 1);
   }
 
-  /**
-   * Resolves the message type name for one side (input/output) of an operation.
-   * Returns a string like "MessageName__partName" used as TypeScript type name.
-   */
   function resolveMessageType(
     operation: Element,
     bindingOperation: Element,
@@ -77,7 +70,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     return `${message.getAttribute('name')}__${parts[0].getAttribute('name')}`;
   }
 
-  /** Cross-references a binding operation with its portType to get full operation context. */
   function resolveOperation(bindingOperation: Element): OperationContext | null {
     const binding = bindingOperation.parentNode as Element | null;
     if (!binding || binding.nodeType !== 1) return null;
@@ -105,7 +97,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
   const messages = childrenNS(root, WSDL, 'message');
   const types = childrenNS(root, WSDL, 'types');
 
-  // Pre-compute operations once per binding to avoid redundant DOM traversals
   const resolvedBindings = bindings.map((binding) => ({
     binding,
     ops: childrenNS(binding, WSDL, 'operation').map((op): ResolvedOp => ({
@@ -114,7 +105,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     })),
   }));
 
-  // Render xs:schema elements embedded inside wsdl:types
   const inlineSchemas = types
     .flatMap((t) => childrenNS(t, XSD, 'schema'))
     .map((s) => renderSchema(s, registry));
@@ -163,8 +153,6 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     ...messageTypes,
   ].filter((s): s is string => s != null).join('');
 }
-
-// ---- Helpers ----
 
 function wsdlDoc(el: Element): string | undefined {
   const text = childrenNS(el, WSDL, 'documentation')

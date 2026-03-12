@@ -3,7 +3,6 @@ import type { SchemaRegistry } from '../schema-registry.js';
 import { children, childrenNS } from '../utils/dom.js';
 import { XSD } from '../utils/namespaces.js';
 
-/** Extracts the local name from a QName without namespace validation. */
 function localName(qname: string): string {
   const colonIdx = qname.indexOf(':');
   return colonIdx >= 0 ? qname.slice(colonIdx + 1) : qname;
@@ -17,12 +16,9 @@ function isOptional(minOccurs: string | null): boolean {
   return minOccurs === '0';
 }
 
-/** Prepends a JSDoc comment line to a body string, or returns body as-is. */
 function withComment(comment: string | undefined, body: string): string {
   return comment ? `${comment}${body}` : body;
 }
-
-// ---- Public entry point ----
 
 export function renderSchema(root: Element, registry: SchemaRegistry): string {
   return [
@@ -45,8 +41,6 @@ export function renderSchema(root: Element, registry: SchemaRegistry): string {
     ),
   ].join('');
 }
-
-// ---- Element declarations ----
 
 function elementTypeDecl(el: Element, registry: SchemaRegistry): string {
   return withComment(
@@ -80,8 +74,6 @@ function elementContent(el: Element, registry: SchemaRegistry): string {
   return opt ? `(${wrapped}) | null | undefined` : wrapped;
 }
 
-// ---- Element as a property inside a sequence/choice ----
-
 function elementProp(el: Element, registry: SchemaRegistry): string {
   const name = el.getAttribute('name');
   const ref = el.getAttribute('ref');
@@ -100,8 +92,6 @@ function elementProp(el: Element, registry: SchemaRegistry): string {
     `${name}${opt ? '?' : ''}: ${elementContent(el, registry)};`,
   );
 }
-
-// ---- Complex types ----
 
 function complexType(el: Element, registry: SchemaRegistry): string {
   const seq = childrenNS(el, XSD, 'sequence')[0];
@@ -191,8 +181,6 @@ function groupRef(el: Element, registry: SchemaRegistry): string {
   return contentModel(el, registry);
 }
 
-// ---- Attributes ----
-
 function attributes(el: Element, registry: SchemaRegistry): string {
   const attrs = childrenNS(el, XSD, 'attribute');
   if (attrs.length === 0) return '';
@@ -211,8 +199,6 @@ function attributes(el: Element, registry: SchemaRegistry): string {
   return `attributes?: {${attrLines}},`;
 }
 
-// ---- Simple types ----
-
 function simpleType(el: Element, registry: SchemaRegistry): string {
   const rest = childrenNS(el, XSD, 'restriction')[0];
   if (rest) {
@@ -223,8 +209,6 @@ function simpleType(el: Element, registry: SchemaRegistry): string {
   }
   return 'string';
 }
-
-// ---- Annotation / documentation ----
 
 function extractAnnotation(el: Element): string | undefined {
   const annotation = childrenNS(el, XSD, 'annotation')[0];

@@ -21,10 +21,6 @@ const XSD_TYPES: Record<string, string> = {
   anyType: 'unknown',
 };
 
-/**
- * Tracks imported XSD namespaces and resolves QNames to TypeScript type names.
- * One instance is created per file (WSDL or XSD).
- */
 export class SchemaRegistry {
   private readonly imports = new Map<string, string>();
   readonly targetNs: string;
@@ -36,11 +32,6 @@ export class SchemaRegistry {
     this.targetNs = root.getAttribute('targetNamespace') ?? '';
   }
 
-  /**
-   * Registers an xs:import element. Returns the generated import details
-   * (importName alias + importPath) the first time a namespace is seen, or
-   * null if the namespace was already registered or has no schemaLocation.
-   */
   registerImport(el: Element): { importName: string; importPath: string } | null {
     const ns = el.getAttribute('namespace');
     if (!ns) return null;
@@ -64,7 +55,6 @@ export class SchemaRegistry {
     };
   }
 
-  /** Resolves a QName (e.g. "xs:string" or "tns:MyType") to a TypeScript type name. */
   typeName(qname: string, el: Element): string {
     const colonIdx = qname.indexOf(':');
     const prefix = colonIdx >= 0 ? qname.slice(0, colonIdx) : null;

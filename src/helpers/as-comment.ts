@@ -4,13 +4,9 @@ export default function asComment(text: string | null | undefined): string | und
   const lines = text
     .split('\n')
     .map((l) => l.trim())
-    // Drop leading/trailing blank lines, but keep intentional middle ones
     .filter((l, i, arr) => l || (i > 0 && i < arr.length - 1));
 
   if (lines.length === 0) return undefined;
-
   if (lines.length === 1) return `/** ${lines[0]} */`;
-
-  // Multi-line: Render as a JSDoc-style block comment
   return `/**\n${lines.map((l) => (l ? ` * ${l}` : ' *')).join('\n')}\n */`;
 }
