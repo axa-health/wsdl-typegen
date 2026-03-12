@@ -1,4 +1,5 @@
 import asComment from '../helpers/as-comment.js';
+import { withComment } from '../helpers/with-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';
 import { children, childrenNS } from '../utils/dom.js';
 import { XSD } from '../utils/namespaces.js';
@@ -14,10 +15,6 @@ function isRepeated(maxOccurs: string | null): boolean {
 
 function isOptional(minOccurs: string | null): boolean {
   return minOccurs === '0';
-}
-
-function withComment(comment: string | undefined, body: string): string {
-  return comment ? `${comment}${body}` : body;
 }
 
 export function renderSchema(root: Element, registry: SchemaRegistry): string {
@@ -39,7 +36,7 @@ export function renderSchema(root: Element, registry: SchemaRegistry): string {
         `export type ${st.getAttribute('name')} = ${simpleType(st, registry)};`,
       ),
     ),
-  ].join('');
+  ].join('\n\n');
 }
 
 function elementTypeDecl(el: Element, registry: SchemaRegistry): string {
@@ -123,7 +120,7 @@ function sequence(el: Element, registry: SchemaRegistry): string {
   return [
     ...childrenNS(el, XSD, 'element').map((child) => elementProp(child, registry)),
     ...childrenNS(el, XSD, 'any').map(() => '[key: string]: unknown;'),
-  ].join('');
+  ].join('\n');
 }
 
 function choice(el: Element, registry: SchemaRegistry): string {
@@ -172,7 +169,8 @@ function groupRef(el: Element, registry: SchemaRegistry): string {
     const refLocal = localName(ref);
     const root = el.ownerDocument.documentElement;
     const groupDef = children(root).find(
-      (n) => n.namespaceURI === XSD && n.localName === 'group' && n.getAttribute('name') === refLocal,
+      (n) =>
+        n.namespaceURI === XSD && n.localName === 'group' && n.getAttribute('name') === refLocal,
     );
     return groupDef
       ? contentModel(groupDef, registry)
@@ -193,7 +191,9 @@ function attributes(el: Element, registry: SchemaRegistry): string {
       const type = a.getAttribute('type') ?? 'string';
       const opt = a.getAttribute('use') !== 'required';
       const typeName = fixed
-        ? (type.includes('string') ? `'${fixed}'` : fixed)
+        ? type.includes('string')
+          ? `'${fixed}'`
+          : fixed
         : registry.typeName(type, a);
       return withComment(extractAnnotation(a), `${name}${opt ? '?' : ''}: ${typeName};`);
     })

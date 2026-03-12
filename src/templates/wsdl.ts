@@ -1,4 +1,5 @@
 import asComment from '../helpers/as-comment.js';
+import { withComment } from '../helpers/with-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';
 import { childrenNS } from '../utils/dom.js';
 import { SOAP, WSDL, XSD } from '../utils/namespaces.js';
@@ -27,7 +28,9 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     if (colonIdx < 0) return qname;
     const prefix = qname.slice(0, colonIdx);
     if (prefix !== targetNsAlias)
-      throw new Error(`Namespace mismatch for "${qname}": prefix "${prefix}" does not match target namespace alias "${targetNsAlias}"`);
+      throw new Error(
+        `Namespace mismatch for "${qname}": prefix "${prefix}" does not match target namespace alias "${targetNsAlias}"`,
+      );
     return qname.slice(colonIdx + 1);
   }
 
@@ -99,10 +102,12 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
 
   const resolvedBindings = bindings.map((binding) => ({
     binding,
-    ops: childrenNS(binding, WSDL, 'operation').map((op): ResolvedOp => ({
-      ctx: resolveOperation(op),
-      doc: wsdlDoc(op),
-    })),
+    ops: childrenNS(binding, WSDL, 'operation').map(
+      (op): ResolvedOp => ({
+        ctx: resolveOperation(op),
+        doc: wsdlDoc(op),
+      }),
+    ),
   }));
 
   const inlineSchemas = types
@@ -110,36 +115,39 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     .map((s) => renderSchema(s, registry));
 
   const clientBody = [
-    ...services.map((s) => `${s.getAttribute('name')}: ${s.getAttribute('name')},`),
+    ...services.map((s) => `  ${s.getAttribute('name')}: ${s.getAttribute('name')};`),
     ...resolvedBindings.flatMap(({ ops }) =>
       ops.flatMap(({ ctx, doc }) => {
         if (!ctx) return [];
-        return [doc, operationSync(ctx), operationAsync(ctx)].filter((s): s is string => s != null);
+        return [withComment(doc, operationSync(ctx)), operationAsync(ctx)];
       }),
     ),
-  ].join('');
+  ].join('\n');
 
   const serviceTypes = services.map((s) => {
     const ports = childrenNS(s, WSDL, 'port')
-      .map((p) => `${p.getAttribute('name')}: ${localPart(p.getAttribute('binding') ?? '')},`)
-      .join('');
-    return `export type ${s.getAttribute('name')} = {${ports}};`;
+      .map((p) => `  ${p.getAttribute('name')}: ${localPart(p.getAttribute('binding') ?? '')};`)
+      .join('\n');
+    return `export type ${s.getAttribute('name')} = {\n${ports}\n};`;
   });
 
   const bindingTypes = resolvedBindings.map(({ binding, ops }) => {
     const body = ops
       .flatMap(({ ctx, doc }) => {
         if (!ctx) return [];
-        return [doc, operationSync(ctx)].filter((s): s is string => s != null);
+        return [withComment(doc, operationSync(ctx))];
       })
-      .join('');
-    return `export type ${binding.getAttribute('name')} = {${body}};`;
+      .join('\n');
+    return `export type ${binding.getAttribute('name')} = {\n${body}\n};`;
   });
 
   const messageTypes = messages.flatMap((msg) =>
     childrenNS(msg, WSDL, 'part').map(
       (p) =>
-        `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} = ${registry.typeName(p.getAttribute('element') ?? '', p)}_element;`,
+        `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} = ${registry.typeName(
+          p.getAttribute('element') ?? '',
+          p,
+        )}_element;`,
     ),
   );
 
@@ -147,19 +155,21 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     `import type { Client as SoapClient } from 'soap';`,
     wsdlDoc(root),
     ...inlineSchemas,
-    `export interface Client extends SoapClient {${clientBody}};`,
+    `export interface Client extends SoapClient {\n${clientBody}\n}`,
     ...serviceTypes,
     ...bindingTypes,
     ...messageTypes,
-  ].filter((s): s is string => s != null).join('');
+  ]
+    .filter((s): s is string => s != null)
+    .join('\n\n');
 }
 
 function wsdlDoc(el: Element): string | undefined {
   const text = childrenNS(el, WSDL, 'documentation')
-    .map((doc) => asComment(doc.textContent))
-    .filter((s): s is string => s != null)
+    .map((doc) => doc.textContent)
+    .filter((t): t is string => t !== null && t.trim() !== '')
     .join('\n');
-  return text || undefined;
+  return text ? asComment(text) : undefined;
 }
 
 function operationSync(ctx: OperationContext): string {
@@ -174,7 +184,7 @@ function operationSync(ctx: OperationContext): string {
     ) => void,
     options?: Record<string, unknown>,
     extraHeaders?: Record<string, unknown>,
-) => void,`;
+  ) => void;`;
 }
 
 function operationAsync(ctx: OperationContext): string {
@@ -182,10 +192,10 @@ function operationAsync(ctx: OperationContext): string {
     input: ${ctx.inputType} | { _xml: string },
     options?: Record<string, unknown>,
     extraHeaders?: Record<string, unknown>,
-) => Promise<[
+  ) => Promise<[
     ${ctx.outputType},
     string,
     Record<string, unknown>,
     string
-]>,`;
+  ]>;`;
 }
