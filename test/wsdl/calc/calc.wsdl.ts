@@ -1,5 +1,4 @@
 import type { Client as SoapClient } from 'soap';
-
 export type Operation_element = Operation;
 export type Add_element = {
   a?: number | null | undefined;
@@ -72,11 +71,9 @@ export interface Client extends SoapClient {
     [ICalculator_Subtract_OutputMessage__parameters, string, Record<string, unknown>, string]
   >;
 }
-
 export type CalculatorService = {
   ICalculator: DefaultBinding_ICalculator;
 };
-
 export type DefaultBinding_ICalculator = {
   Add: (
     input: ICalculator_Add_InputMessage__parameters | { _xml: string },
@@ -103,7 +100,6 @@ export type DefaultBinding_ICalculator = {
     extraHeaders?: Record<string, unknown>,
   ) => void;
 };
-
 export type ICalculator_Add_InputMessage__parameters = Add_element;
 export type ICalculator_Add_OutputMessage__parameters = AddResponse_element;
 export type ICalculator_Subtract_InputMessage__parameters = Subtract_element;

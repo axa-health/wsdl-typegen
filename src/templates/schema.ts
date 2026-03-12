@@ -1,6 +1,6 @@
 import asComment from '../helpers/as-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';
-import { children, childrenNS, lines } from '../utils/dom.js';
+import { children, childrenNS } from '../utils/dom.js';
 import { XSD } from '../utils/namespaces.js';
 
 /** Extracts the local name from a QName without namespace validation. */
@@ -25,7 +25,7 @@ function withComment(comment: string | undefined, body: string): string {
 // ---- Public entry point ----
 
 export function renderSchema(root: Element, registry: SchemaRegistry): string {
-  return lines([
+  return [
     ...childrenNS(root, XSD, 'import').flatMap((el) => {
       const info = registry.registerImport(el);
       return info ? [`import type * as ${info.importName} from '${info.importPath}';`] : [];
@@ -43,7 +43,7 @@ export function renderSchema(root: Element, registry: SchemaRegistry): string {
         `export type ${st.getAttribute('name')} = ${simpleType(st, registry)}`,
       ),
     ),
-  ]);
+  ].join('\n');
 }
 
 // ---- Element declarations ----
@@ -130,10 +130,10 @@ function complexType(el: Element, registry: SchemaRegistry): string {
 }
 
 function sequence(el: Element, registry: SchemaRegistry): string {
-  return lines([
+  return [
     ...childrenNS(el, XSD, 'element').map((child) => elementProp(child, registry)),
     ...childrenNS(el, XSD, 'any').map(() => '[key: string]: unknown;'),
-  ]);
+  ].join('\n');
 }
 
 function choice(el: Element, registry: SchemaRegistry): string {
@@ -157,8 +157,8 @@ function choice(el: Element, registry: SchemaRegistry): string {
 }
 
 function contentModel(el: Element, registry: SchemaRegistry): string {
-  return lines(
-    children(el).map((child) => {
+  return children(el)
+    .map((child) => {
       if (child.namespaceURI !== XSD) return null;
       switch (child.localName) {
         case 'sequence':
@@ -171,8 +171,9 @@ function contentModel(el: Element, registry: SchemaRegistry): string {
         default:
           return null;
       }
-    }),
-  );
+    })
+    .filter((s): s is string => s != null)
+    .join('\n');
 }
 
 function groupRef(el: Element, registry: SchemaRegistry): string {
@@ -196,9 +197,8 @@ function attributes(el: Element, registry: SchemaRegistry): string {
   const attrs = childrenNS(el, XSD, 'attribute');
   if (attrs.length === 0) return '';
 
-  return lines([
-    'attributes?: {',
-    ...attrs.map((a) => {
+  const attrLines = attrs
+    .map((a) => {
       const name = a.getAttribute('name');
       const type = a.getAttribute('type') ?? 'string';
       const opt = a.getAttribute('use') !== 'required';
@@ -206,9 +206,9 @@ function attributes(el: Element, registry: SchemaRegistry): string {
         extractAnnotation(a),
         `${name}${opt ? '?' : ''}: ${registry.typeName(type, a)};`,
       );
-    }),
-    '},',
-  ]);
+    })
+    .join('\n');
+  return `attributes?: {\n${attrLines}\n},`;
 }
 
 // ---- Simple types ----

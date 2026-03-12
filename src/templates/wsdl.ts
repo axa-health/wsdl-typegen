@@ -1,6 +1,6 @@
 import asComment from '../helpers/as-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';
-import { childrenNS, lines } from '../utils/dom.js';
+import { childrenNS } from '../utils/dom.js';
 import { SOAP, WSDL, XSD } from '../utils/namespaces.js';
 import { renderSchema } from './schema.js';
 
@@ -119,45 +119,49 @@ export function renderWsdl(root: Element, registry: SchemaRegistry): string {
     .flatMap((t) => childrenNS(t, XSD, 'schema'))
     .map((s) => renderSchema(s, registry));
 
-  return lines([
-    `import type { Client as SoapClient } from 'soap';`,
-    '',
-    wsdlDoc(root),
-    ...inlineSchemas,
-    'export interface Client extends SoapClient {',
+  const clientBody = [
     ...services.map((s) => `${s.getAttribute('name')}: ${s.getAttribute('name')},`),
     ...resolvedBindings.flatMap(({ ops }) =>
       ops.flatMap(({ ctx, doc }) => {
         if (!ctx) return [];
-        return [doc, operationSync(ctx), operationAsync(ctx)];
+        return [doc, operationSync(ctx), operationAsync(ctx)].filter((s): s is string => s != null);
       }),
     ),
-    '};',
-    '',
-    ...services.flatMap((s) => [
-      `export type ${s.getAttribute('name')} = {`,
-      ...childrenNS(s, WSDL, 'port').map(
-        (p) => `${p.getAttribute('name')}: ${localPart(p.getAttribute('binding') ?? '')},`,
-      ),
-      '};',
-    ]),
-    '',
-    ...resolvedBindings.flatMap(({ binding, ops }) => [
-      `export type ${binding.getAttribute('name')} = {`,
-      ...ops.flatMap(({ ctx, doc }) => {
+  ].join('\n');
+
+  const serviceTypes = services.map((s) => {
+    const ports = childrenNS(s, WSDL, 'port')
+      .map((p) => `${p.getAttribute('name')}: ${localPart(p.getAttribute('binding') ?? '')},`)
+      .join('\n');
+    return `export type ${s.getAttribute('name')} = {\n${ports}\n}`;
+  });
+
+  const bindingTypes = resolvedBindings.map(({ binding, ops }) => {
+    const body = ops
+      .flatMap(({ ctx, doc }) => {
         if (!ctx) return [];
-        return [doc, operationSync(ctx)];
-      }),
-      '};',
-    ]),
-    '',
-    ...messages.flatMap((msg) =>
-      childrenNS(msg, WSDL, 'part').map(
-        (p) =>
-          `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} =\n${registry.typeName(p.getAttribute('element') ?? '', p)}_element;`,
-      ),
+        return [doc, operationSync(ctx)].filter((s): s is string => s != null);
+      })
+      .join('\n');
+    return `export type ${binding.getAttribute('name')} = {\n${body}\n}`;
+  });
+
+  const messageTypes = messages.flatMap((msg) =>
+    childrenNS(msg, WSDL, 'part').map(
+      (p) =>
+        `export type ${msg.getAttribute('name')}__${p.getAttribute('name')} =\n${registry.typeName(p.getAttribute('element') ?? '', p)}_element;`,
     ),
-  ]);
+  );
+
+  return [
+    `import type { Client as SoapClient } from 'soap';`,
+    wsdlDoc(root),
+    ...inlineSchemas,
+    `export interface Client extends SoapClient {\n${clientBody}\n}`,
+    ...serviceTypes,
+    ...bindingTypes,
+    ...messageTypes,
+  ].filter((s): s is string => s != null).join('\n');
 }
 
 // ---- Helpers ----

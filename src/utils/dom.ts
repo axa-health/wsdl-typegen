@@ -8,7 +8,3 @@ export function childrenNS(parent: Node, ns: string, local: string): Element[] {
   return children(parent).filter((el) => el.namespaceURI === ns && el.localName === local);
 }
 
-/** Joins non-empty strings with newlines, discarding nullish values. */
-export function lines(items: (string | null | undefined)[]): string {
-  return items.filter((s): s is string => typeof s === 'string').join('\n');
-}
