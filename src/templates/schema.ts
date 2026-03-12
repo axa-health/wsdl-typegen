@@ -185,18 +185,20 @@ function attributes(el: Element, registry: SchemaRegistry): string {
   const attrs = childrenNS(el, XSD, 'attribute');
   if (attrs.length === 0) return '';
 
+  const anyRequired = attrs.some((a) => a.getAttribute('use') === 'required');
   const attrLines = attrs
     .map((a) => {
       const name = a.getAttribute('name');
+      const fixed = a.getAttribute('fixed');
       const type = a.getAttribute('type') ?? 'string';
       const opt = a.getAttribute('use') !== 'required';
-      return withComment(
-        extractAnnotation(a),
-        `${name}${opt ? '?' : ''}: ${registry.typeName(type, a)};`,
-      );
+      const typeName = fixed
+        ? (type.includes('string') ? `'${fixed}'` : fixed)
+        : registry.typeName(type, a);
+      return withComment(extractAnnotation(a), `${name}${opt ? '?' : ''}: ${typeName};`);
     })
     .join('');
-  return `attributes?: {${attrLines}},`;
+  return `attributes${anyRequired ? '' : '?'}: {${attrLines}},`;
 }
 
 function simpleType(el: Element, registry: SchemaRegistry): string {

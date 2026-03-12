@@ -25,9 +25,9 @@ export type Error = {
   Code: number;
 };
 export type AddOperation = Operation & {
-  attributes?: {
-    symbol: string;
-    errorCode: number;
+  attributes: {
+    symbol: 'Add Operation';
+    errorCode: 12;
   };
 };
 export interface Client extends SoapClient {
