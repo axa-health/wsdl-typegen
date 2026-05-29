@@ -12,13 +12,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "npm-run-all -p dev:*",
-    "dev:run": "nodemon --watch src -e ts --exec pnpm generate",
-    "generate": "node-dev src/index.ts -- generate -t 'test/**/*.wsdl'",
-    "build": "npm-run-all build:clean build:lib",
-    "build:clean": "rimraf lib",
-    "build:lib": "tsc --build tsconfig.build.json",
-    "lint": "tsc --noEmit && eslint .",
+    "generate": "tsx src/index.ts -- generate -t 'test/**/*.wsdl'",
+    "build": "pnpm build:lib",
+    "build:lib": "tsc --build --clean tsconfig.build.json",
     "prepublishOnly": "pnpm build",
     "test-typescript": "tsx src/index.ts generate 'test/**/*.wsdl' && tsc --noEmit",
     "release": "pnpm build && pnpm changeset publish",
