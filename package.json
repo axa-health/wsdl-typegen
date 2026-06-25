@@ -25,21 +25,21 @@
     "fix": "biome check --fix --unsafe"
   },
   "dependencies": {
-    "@biomejs/js-api": "4.0.0",
-    "@biomejs/wasm-nodejs": "2.4.6",
-    "@xmldom/xmldom": "^0.8.11",
-    "commander": "14.0.3",
+    "@biomejs/js-api": "6.0.0",
+    "@biomejs/wasm-nodejs": "2.5.1",
+    "@xmldom/xmldom": "^0.9.10",
+    "commander": "15.0.0",
     "glob": "13.0.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.6",
-    "@changesets/cli": "2.30.0",
+    "@biomejs/biome": "2.5.1",
+    "@changesets/cli": "2.31.0",
     "@tsconfig/node22": "^22.0.5",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "24.12.0",
-    "soap": "1.8.0",
-    "tsx": "4.21.0",
-    "typescript": "5.9.3"
+    "@types/node": "24.13.2",
+    "soap": "1.9.3",
+    "tsx": "4.22.4",
+    "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "pnpm@11.9.0"
 }

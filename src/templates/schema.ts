@@ -1,3 +1,4 @@
+import type { Element } from '@xmldom/xmldom';
 import asComment from '../helpers/as-comment.js';
 import { withComment } from '../helpers/with-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';
@@ -165,18 +166,16 @@ function contentModel(el: Element, registry: SchemaRegistry): string {
 
 function groupRef(el: Element, registry: SchemaRegistry): string {
   const ref = el.getAttribute('ref');
-  if (ref) {
-    const refLocal = localName(ref);
-    const root = el.ownerDocument.documentElement;
-    const groupDef = children(root).find(
-      (n) =>
-        n.namespaceURI === XSD && n.localName === 'group' && n.getAttribute('name') === refLocal,
-    );
-    return groupDef
-      ? contentModel(groupDef, registry)
-      : `/* group ref: ${refLocal} not found */ unknown`;
-  }
-  return contentModel(el, registry);
+  if (!ref) return contentModel(el, registry);
+
+  const refLocal = localName(ref);
+  const root = el.ownerDocument?.documentElement;
+  const groupDef = root
+    ? childrenNS(root, XSD, 'group').find((n) => n.getAttribute('name') === refLocal)
+    : undefined;
+  return groupDef
+    ? contentModel(groupDef, registry)
+    : `/* group ref: ${refLocal} not found */ unknown`;
 }
 
 function attributes(el: Element, registry: SchemaRegistry): string {

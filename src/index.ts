@@ -55,6 +55,7 @@ program
         const xml = await fs.readFile(file, 'utf8');
         const doc = parser.parseFromString(xml, 'text/xml');
         const root = doc.documentElement;
+        if (!root) throw new Error(`No root element in ${file}`);
 
         const registry = new SchemaRegistry(root, (rel) =>
           processFile(path.resolve(file, '..', rel), 'schema'),

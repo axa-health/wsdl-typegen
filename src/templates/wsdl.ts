@@ -1,3 +1,4 @@
+import type { Element } from '@xmldom/xmldom';
 import asComment from '../helpers/as-comment.js';
 import { withComment } from '../helpers/with-comment.js';
 import type { SchemaRegistry } from '../schema-registry.js';

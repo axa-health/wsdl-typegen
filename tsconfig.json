@@ -12,6 +12,7 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "noImplicitAny": false,
-    "noImplicitThis": false
+    "noImplicitThis": false,
+    "types": ["node"]
   }
 }

@@ -1,3 +1,4 @@
+import type { Element } from '@xmldom/xmldom';
 import { XSD } from './utils/namespaces.js';
 
 const XSD_TYPES: Record<string, string> = {
