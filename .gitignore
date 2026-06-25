@@ -4,3 +4,5 @@ src/templates/**/*.js
 test/wsdl/**/*.ts
 yarn-error.log
 wsdl-typegen-*.tgz
+/.idea
+*.iml
