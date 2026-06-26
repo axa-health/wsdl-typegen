@@ -4,6 +4,14 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axa-health/wsdl-typegen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/axa-health/wsdl-typegen/issues"
+  },
+  "homepage": "https://github.com/axa-health/wsdl-typegen#readme",
   "bin": {
     "wsdl-typegen": "dist/index.js"
   },
