@@ -1,4 +1,5 @@
-lib/
+dist/
+*.tsbuildinfo
 node_modules/
 src/templates/**/*.js
 test/wsdl/**/*.ts

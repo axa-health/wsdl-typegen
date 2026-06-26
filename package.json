@@ -2,9 +2,19 @@
   "name": "@axah/wsdl-typegen",
   "version": "2.1.2",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
-  "bin": "dist/index.js",
+  "bin": {
+    "wsdl-typegen": "dist/index.js"
+  },
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist"
   ],
@@ -14,7 +24,8 @@
   "scripts": {
     "generate": "tsx src/index.ts -- generate -t 'test/**/*.wsdl'",
     "build": "pnpm build:lib",
-    "build:lib": "tsc --build --clean tsconfig.build.json",
+    "build:lib": "pnpm clean && tsc --build tsconfig.build.json",
+    "clean": "rm -rf dist",
     "prepublishOnly": "pnpm build",
     "test-typescript": "tsx src/index.ts generate 'test/**/*.wsdl' && tsc --noEmit",
     "release": "pnpm build && pnpm changeset publish",
