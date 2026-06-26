@@ -3,6 +3,18 @@ import type { Client as SoapClient } from 'soap';
 export type Operation_element = Operation;
 
 /**
+ * A single operand value.
+ */
+export type Operand_element = number;
+
+/**
+ * A repeated reference, which must generate an array.
+ */
+export type OperandCollection_element = {
+  Operand?: ReadonlyArray<Operand_element>;
+};
+
+/**
  * Request element for the Add operation.
  */
 export type Add_element = {

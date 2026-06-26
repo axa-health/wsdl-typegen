@@ -82,6 +82,23 @@
         </xsd:complexContent>
       </xsd:complexType>
 
+      <xsd:element name="Operand" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>A single operand value.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element name="OperandCollection">
+        <xsd:annotation>
+          <xsd:documentation>A repeated reference, which must generate an array.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:Operand" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
       <xsd:element name="Add">
         <xsd:annotation>
           <xsd:documentation>Request element for the Add operation.</xsd:documentation>

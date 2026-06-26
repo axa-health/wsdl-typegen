@@ -5,6 +5,7 @@ import type {
   Client,
   DefaultBinding_ICalculator,
   MultiplyOperation,
+  OperandCollection_element,
 } from './wsdl/calc/calc.wsdl.js';
 
 // assert a complexContent extension keeps the elements declared in its nested sequence
@@ -12,6 +13,11 @@ const _multiply: MultiplyOperation = {
   factorA: 1,
   factorB: 2,
   attributes: { precision: 4 },
+};
+
+// assert a maxOccurs="unbounded" element ref is generated as an array
+const _operands: OperandCollection_element = {
+  Operand: [1, 2, 3],
 };
 
 // assert Client has correct shape

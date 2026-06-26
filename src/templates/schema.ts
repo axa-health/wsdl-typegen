@@ -79,9 +79,11 @@ function elementProp(el: Element, registry: SchemaRegistry): string {
 
   if (ref) {
     const refLocal = localName(ref);
+    const arr = isRepeated(el.getAttribute('maxOccurs'));
+    const inner = `${registry.typeName(ref, el)}_element`;
     return withComment(
       extractAnnotation(el),
-      `${refLocal}${opt ? '?' : ''}: ${registry.typeName(ref, el)}_element;`,
+      `${refLocal}${opt ? '?' : ''}: ${arr ? `ReadonlyArray<${inner}>` : inner};`,
     );
   }
 
