@@ -1,76 +1,158 @@
-<wsdl:definitions 
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
-  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
-  xmlns:tns="http://Example.org" 
-  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
-  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" 
-  xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" 
-  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
-  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
-  xmlns:wsa10="http://www.w3.org/2005/08/addressing" 
-  xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" targetNamespace="http://Example.org" 
-  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+        xmlns:tns="http://Example.org"
+        xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+        xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" targetNamespace="http://Example.org"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://Example.org" elementFormDefault="qualified" >
-  <xsd:complexType name="Operation">
-      <xsd:sequence/>
-      <xsd:attribute name="symbol" type="xsd:string"/>
-      <xsd:attribute name="fullDescription" type="xsd:string"/>
-      <xsd:attribute name="errorCode" type="xsd:long"/>
-  </xsd:complexType>
-  <xsd:complexType name="Error">
-    <xsd:sequence>      
-    <xsd:element name="Code" minOccurs="1" maxOccurs="1">
-      <xsd:simpleType>
-        <xsd:restriction base="xsd:short"/>
-      </xsd:simpleType>
-    </xsd:element>  
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:element name="Operation" type="tns:Operation"/>
-  <xsd:complexType name="AddOperation">
-      <xsd:complexContent>
+
+      <xsd:complexType name="Operation">
+        <xsd:annotation>
+          <xsd:documentation>
+            Base type for all calculator operations.
+            Contains tracking and error metadata.
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence/>
+        <xsd:attribute name="symbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The mathematical symbol (e.g., +, -).</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fullDescription" type="xsd:string"/>
+        <xsd:attribute name="errorCode" type="xsd:long"/>
+      </xsd:complexType>
+
+      <xsd:complexType name="Error">
+        <xsd:annotation>
+          <xsd:documentation>Standard error container for SOAP faults.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="Code" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation>A short integer representing the specific error condition.</xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:short"/>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:element name="Operation" type="tns:Operation"/>
+
+      <xsd:complexType name="AddOperation">
+        <xsd:annotation>
+          <xsd:documentation>Specific extension for the Addition logic.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
           <xsd:restriction base="tns:Operation">
-              <xsd:attribute name="symbol" type="xsd:string" fixed="Add Operation" use="required"/>
-              <xsd:attribute name="errorCode" type="xsd:long" fixed="12" use="required"/>
+            <xsd:attribute name="symbol" type="xsd:string" fixed="Add Operation" use="required"/>
+            <xsd:attribute name="errorCode" type="xsd:long" fixed="12" use="required"/>
           </xsd:restriction>
-      </xsd:complexContent>
-  </xsd:complexType>        
-  <xsd:element name="Add">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element minOccurs="0" name="a" type="xsd:int" />
-        <xsd:element minOccurs="0" name="b" type="xsd:int" />
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:element name="AddResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element minOccurs="0" name="result" type="xsd:int" />
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:element name="Subtract">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element minOccurs="0" name="a" type="xsd:int" />
-        <xsd:element minOccurs="0" name="b" type="xsd:int" />
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
-  <xsd:element name="SubtractResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element minOccurs="0" name="result" type="xsd:int" />
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="MultiplyOperation">
+        <xsd:annotation>
+          <xsd:documentation>Multiplication that extends the base Operation with its operands.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+          <xsd:extension base="tns:Operation">
+            <xsd:sequence>
+              <xsd:element name="factorA" type="xsd:int">
+                <xsd:annotation>
+                  <xsd:documentation>The first factor.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="factorB" type="xsd:int"/>
+            </xsd:sequence>
+            <xsd:attribute name="precision" type="xsd:int" use="required"/>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="Operand" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>A single operand value.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+      <xsd:element name="OperandCollection">
+        <xsd:annotation>
+          <xsd:documentation>A repeated reference, which must generate an array.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:Operand" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Add">
+        <xsd:annotation>
+          <xsd:documentation>Request element for the Add operation.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="a" type="xsd:int">
+              <xsd:annotation>
+                <xsd:documentation>The first operand.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="b" type="xsd:int">
+              <xsd:annotation>
+                <xsd:documentation>The second operand.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="AddResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="result" type="xsd:int">
+              <xsd:annotation>
+                <xsd:documentation>The sum of operands a and b.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="Subtract">
+        <xsd:annotation>
+          <xsd:documentation>Request element for the Subtract operation.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="a" type="xsd:int" />
+            <xsd:element minOccurs="0" name="b" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="SubtractResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="result" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
     </xsd:schema>
   </wsdl:types>
+
   <wsdl:message name="ICalculator_Add_InputMessage">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -83,6 +165,7 @@
   <wsdl:message name="ICalculator_Subtract_OutputMessage">
     <wsdl:part name="parameters" element="tns:SubtractResponse" />
   </wsdl:message>
+
   <wsdl:portType name="ICalculator">
     <wsdl:operation name="Add">
       <wsdl:input wsaw:Action="http://Example.org/ICalculator/Add" message="tns:ICalculator_Add_InputMessage" />
@@ -93,30 +176,24 @@
       <wsdl:output wsaw:Action="http://Example.org/ICalculator/SubtractResponse" message="tns:ICalculator_Subtract_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
+
   <wsdl:binding name="DefaultBinding_ICalculator" type="tns:ICalculator">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Add">
       <soap:operation soapAction="http://Example.org/ICalculator/Add" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
+      <wsdl:input><soap:body use="literal" /></wsdl:input>
+      <wsdl:output><soap:body use="literal" /></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Subtract">
       <soap:operation soapAction="http://Example.org/ICalculator/Subtract" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
+      <wsdl:input><soap:body use="literal" /></wsdl:input>
+      <wsdl:output><soap:body use="literal" /></wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+
   <wsdl:service name="CalculatorService">
-        <wsdl:port name="ICalculator" binding="tns:DefaultBinding_ICalculator">
-            <soap:address location="http://Example.org/ICalculator" />
-        </wsdl:port> 
+    <wsdl:port name="ICalculator" binding="tns:DefaultBinding_ICalculator">
+      <soap:address location="http://Example.org/ICalculator" />
+    </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -1,92 +1,99 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, camelcase */
 
 // assert Client is exposed
-import { Client, DefaultBinding_ICalculator } from './wsdl/calc/calc.wsdl';
-import { Maybe } from '../src/utils/types';
+import type {
+  Client,
+  DefaultBinding_ICalculator,
+  MultiplyOperation,
+  OperandCollection_element,
+} from './wsdl/calc/calc.wsdl.js';
+
+// assert a complexContent extension keeps the elements declared in its nested sequence
+const _multiply: MultiplyOperation = {
+  factorA: 1,
+  factorB: 2,
+  attributes: { precision: 4 },
+};
+
+// assert a maxOccurs="unbounded" element ref is generated as an array
+const _operands: OperandCollection_element = {
+  Operand: [1, 2, 3],
+};
 
 // assert Client has correct shape
 const binding: DefaultBinding_ICalculator = {
   Add(
-    input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
-    callback: (
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
+    _callback: (
       err: any,
-      result: { result?: Maybe<number> },
+      result: { result?: number | null | undefined },
       rawResponse: string,
       soapHeader: { [key: string]: any },
       rawRequest: string,
     ) => void,
-    options?: { [key: string]: any },
-    extraHeaders?: { [key: string]: any },
+    _options?: { [key: string]: any },
+    _extraHeaders?: { [key: string]: any },
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void {},
   Subtract(
-    input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
-    callback: (
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
+    _callback: (
       err: any,
-      result: { result?: Maybe<number> },
+      result: { result?: number | null | undefined },
       rawResponse: string,
       soapHeader: { [key: string]: any },
       rawRequest: string,
     ) => void,
-    options?: { [key: string]: any },
-    extraHeaders?: { [key: string]: any },
+    _options?: { [key: string]: any },
+    _extraHeaders?: { [key: string]: any },
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void {},
 };
 
-const client: Partial<Client> = {
+const _client: Partial<Client> = {
   CalculatorService: {
     ICalculator: binding,
   },
   ...binding,
   AddAsync(
-    input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
-    options?: { [key: string]: any },
-    extraHeaders?: { [key: string]: any },
-  ): Promise<
-    [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
-  > {
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
+    _options?: { [key: string]: any },
+    _extraHeaders?: { [key: string]: any },
+  ): Promise<[{ result?: number | null | undefined }, string, { [key: string]: any }, string]> {
     return new Promise<
-      [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
+      [{ result?: number | null | undefined }, string, { [key: string]: any }, string]
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     >(() => {});
   },
   SubtractAsync(
-    input: { a?: Maybe<number>; b?: Maybe<number> } | { _xml: string },
-    options?: { [key: string]: any },
-    extraHeaders?: { [key: string]: any },
-  ): Promise<
-    [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
-  > {
+    _input: { a?: number | null | undefined; b?: number | null | undefined } | { _xml: string },
+    _options?: { [key: string]: any },
+    _extraHeaders?: { [key: string]: any },
+  ): Promise<[{ result?: number | null | undefined }, string, { [key: string]: any }, string]> {
     return new Promise<
-      [{ result?: Maybe<number> }, string, { [key: string]: any }, string]
+      [{ result?: number | null | undefined }, string, { [key: string]: any }, string]
       // eslint-disable-next-line @typescript-eslint/no-empty-function
     >(() => {});
   },
   describe() {
     return {};
   },
-  setSecurity(security: {
+  setSecurity(_security: {
     addOptions?: (options: { [key: string]: any }) => void;
     addHeaders?: (headers: { [key: string]: any }) => void;
     toXML: () => string;
     postProcess?: (xml: string, envelopeKey: string) => string;
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   }) {},
-  addSoapHeader(
-    soapHeader: any,
-    name?: string,
-    namespace?: any,
-    xmlns?: string,
-  ) {
+  addSoapHeader(_soapHeader: any, _name?: string, _namespace?: any, _xmlns?: string) {
     return 1;
   },
   changeSoapHeader(
-    index: number,
-    soapHeader: any,
-    name?: string,
-    namespace?: string,
-    xmlns?: string,
+    _index: number,
+    _soapHeader: any,
+    _name?: string,
+    _namespace?: string,
+    _xmlns?: string,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
   ) {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -96,5 +103,5 @@ const client: Partial<Client> = {
   },
   lastRequest: '',
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setEndpoint(endpoint: string) {},
+  setEndpoint(_endpoint: string) {},
 };

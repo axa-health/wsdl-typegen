@@ -1,63 +1,60 @@
 {
   "name": "@axah/wsdl-typegen",
   "version": "2.1.2",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
-  "bin": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axa-health/wsdl-typegen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/axa-health/wsdl-typegen/issues"
+  },
+  "homepage": "https://github.com/axa-health/wsdl-typegen#readme",
+  "bin": {
+    "wsdl-typegen": "dist/index.js"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "npm-run-all -p dev:*",
-    "dev:templates-flow": "nodemon --watch src/templates/flow -e hbs --exec pnpm build:templates-flow",
-    "dev:templates-typescript": "nodemon --watch src/templates/typescript -e hbs --exec pnpm build:templates-typescript",
-    "dev:run": "nodemon --watch src -e ts,hbs --exec pnpm generate",
-    "generate": "node-dev src/index.ts -- generate -t 'test/**/*.wsdl'",
-    "build": "npm-run-all build:clean build:templates-flow build:templates-typescript build:lib build:copy",
-    "build:clean": "rimraf lib",
-    "build:templates-flow": "handlebars src/templates/flow -c handlebars/runtime -e hbs -f src/templates/flow.js",
-    "build:templates-typescript": "handlebars src/templates/typescript -c handlebars/runtime -e hbs -f src/templates/typescript.js",
-    "build:lib": "tsc --build tsconfig.build.json",
-    "build:copy": "copyfiles -f ./src/templates/* lib/templates/",
-    "lint": "tsc --noEmit && eslint .",
+    "generate": "tsx src/index.ts -- generate -t 'test/**/*.wsdl'",
+    "build": "pnpm build:lib",
+    "build:lib": "pnpm clean && tsc --build tsconfig.build.json",
+    "clean": "rm -rf dist",
     "prepublishOnly": "pnpm build",
-    "test-typescript": "node-dev src/index.ts generate -t 'test/**/*.wsdl' && tsc --noEmit",
-    "release": "pnpm build && pnpm changeset publish"
+    "test-typescript": "tsx src/index.ts generate 'test/**/*.wsdl' && tsc -p tsconfig.test.json",
+    "release": "pnpm build && pnpm changeset publish",
+    "fix": "biome check --fix --unsafe"
   },
   "dependencies": {
-    "camelcase": "6.3.0",
-    "chokidar": "^4.0.3",
-    "commander": "^13.0.0",
-    "glob": "^11.0.1",
-    "handlebars": "^4.7.8",
-    "prettier": "^3.4.2",
-    "xml2js": "^0.6.2"
+    "@biomejs/js-api": "6.0.0",
+    "@biomejs/wasm-nodejs": "2.5.0",
+    "@xmldom/xmldom": "^0.9.10",
+    "commander": "15.0.0",
+    "glob": "13.0.6"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.11",
-    "@types/glob": "^8.1.0",
-    "@types/node": "^22.10.7",
-    "@types/xml2js": "^0.4.14",
-    "@typescript-eslint/eslint-plugin": "^8.20.0",
-    "@typescript-eslint/parser": "^8.20.0",
-    "copyfiles": "^2.4.1",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-prettier": "^5.2.3",
-    "jest": "^29.7.0",
-    "node-dev": "^8.0.0",
-    "nodemon": "^3.1.9",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^6.0.1",
-    "soap": "^1.1.7",
-    "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "@biomejs/biome": "2.5.1",
+    "@changesets/cli": "2.31.0",
+    "@tsconfig/node22": "^22.0.5",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "24.13.2",
+    "soap": "1.9.3",
+    "tsx": "4.22.4",
+    "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@9.15.4"
+  "packageManager": "pnpm@11.9.0"
 }

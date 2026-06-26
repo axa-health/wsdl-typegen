@@ -1,22 +1,20 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["@tsconfig/node22/tsconfig.json", "@tsconfig/strictest/tsconfig.json"],
+  "include": ["src/**/*"],
   "compilerOptions": {
-    "outDir": "lib",
-    "target": "es2017",
-    "module": "commonjs",
-    "sourceMap": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
-  },
-  "include": [
-    "src/**/**.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "sourceMap": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "types": ["node"]
+  }
 }
