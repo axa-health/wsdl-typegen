@@ -2,43 +2,32 @@ name: CI
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - '**'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  ci:
-    name: CI
+  build:
+    name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - name: git checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
+
       - name: setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version-file: '.nvmrc'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-        id: pnpm-install
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/cache@v6
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
@@ -46,17 +35,73 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: create and publish snapshot
+  publish-canary:
+    name: Publish canary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    if: github.ref_name != 'master'
+    environment: publish
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
+
+      - name: setup node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Publish canary snapshot
         run: |
           pnpm changeset version --snapshot
           pnpm changeset publish --tag canary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Post published version to GitHub checks
-        run: |
-          name=$(jq -r .name package.json)
-          version=$(jq -r .version package.json)
-          npx action-status --context=$name --state=success --description=$version --url="https://unpkg.com/$name@$version/"
+  publish-release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    if: github.ref_name == 'master'
+    environment: publish
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
+
+      - name: setup node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Publish release
+        uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b
+        with:
+          publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
