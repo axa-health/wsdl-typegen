@@ -70,6 +70,20 @@ export type AddOperation = Operation & {
   };
 };
 
+/**
+ * Multiplication that extends the base Operation with its operands.
+ */
+export type MultiplyOperation = Operation & {
+  /**
+   * The first factor.
+   */
+  factorA: number;
+  factorB: number;
+  attributes: {
+    precision: number;
+  };
+};
+
 export interface Client extends SoapClient {
   CalculatorService: CalculatorService;
   Add: (

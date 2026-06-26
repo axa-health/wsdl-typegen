@@ -110,7 +110,10 @@ function complexType(el: Element, registry: SchemaRegistry): string {
     const container = ext ?? rest;
     if (container) {
       const base = container.getAttribute('base');
-      if (base) return `${registry.typeName(base, el)} & {${attributes(container, registry)}}`;
+      if (base) {
+        const body = `${contentModel(container, registry)}${attributes(container, registry)}`;
+        return `${registry.typeName(base, el)} & {${body}}`;
+      }
     }
   }
 

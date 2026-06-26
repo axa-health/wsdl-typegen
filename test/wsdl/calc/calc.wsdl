@@ -63,6 +63,25 @@
         </xsd:complexContent>
       </xsd:complexType>
 
+      <xsd:complexType name="MultiplyOperation">
+        <xsd:annotation>
+          <xsd:documentation>Multiplication that extends the base Operation with its operands.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+          <xsd:extension base="tns:Operation">
+            <xsd:sequence>
+              <xsd:element name="factorA" type="xsd:int">
+                <xsd:annotation>
+                  <xsd:documentation>The first factor.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="factorB" type="xsd:int"/>
+            </xsd:sequence>
+            <xsd:attribute name="precision" type="xsd:int" use="required"/>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+
       <xsd:element name="Add">
         <xsd:annotation>
           <xsd:documentation>Request element for the Add operation.</xsd:documentation>

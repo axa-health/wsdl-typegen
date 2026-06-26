@@ -36,6 +36,13 @@ biome.applyConfiguration(projectKey, {
     },
   },
   assist: { actions: { source: { organizeImports: 'on' } } },
+  linter: {
+    enabled: true,
+    rules: {
+      recommended: false,
+      correctness: { noUnusedImports: 'error' },
+    },
+  },
 });
 
 const program = new Command();
@@ -63,7 +70,12 @@ program
 
         const result = type === 'wsdl' ? renderWsdl(root, registry) : renderSchema(root, registry);
 
-        const { content: formatted } = biome.formatContent(projectKey, result, {
+        const { content: linted } = biome.lintContent(projectKey, result, {
+          filePath: 'output.ts',
+          fixFileMode: 'safeAndUnsafeFixes',
+        });
+
+        const { content: formatted } = biome.formatContent(projectKey, linted, {
           filePath: 'output.ts',
         });
 

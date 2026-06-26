@@ -3,7 +3,6 @@
   "extends": ["@tsconfig/node22/tsconfig.json", "@tsconfig/strictest/tsconfig.json"],
   "include": ["src/**/*"],
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "dist",
     "resolveJsonModule": true,
     "noPropertyAccessFromIndexSignature": false,

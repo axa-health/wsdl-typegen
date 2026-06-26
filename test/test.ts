@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, camelcase */
 
 // assert Client is exposed
-import type { Client, DefaultBinding_ICalculator } from './wsdl/calc/calc.wsdl.js';
+import type {
+  Client,
+  DefaultBinding_ICalculator,
+  MultiplyOperation,
+} from './wsdl/calc/calc.wsdl.js';
+
+// assert a complexContent extension keeps the elements declared in its nested sequence
+const _multiply: MultiplyOperation = {
+  factorA: 1,
+  factorB: 2,
+  attributes: { precision: 4 },
+};
 
 // assert Client has correct shape
 const binding: DefaultBinding_ICalculator = {
