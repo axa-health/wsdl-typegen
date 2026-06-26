@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@biomejs/js-api':
         specifier: 6.0.0
-        version: 6.0.0(@biomejs/wasm-nodejs@2.5.1)
+        version: 6.0.0(@biomejs/wasm-nodejs@2.5.0)
       '@biomejs/wasm-nodejs':
-        specifier: 2.5.1
-        version: 2.5.1
+        specifier: 2.5.0
+        version: 2.5.0
       '@xmldom/xmldom':
         specifier: ^0.9.10
         version: 0.9.10
@@ -126,8 +126,8 @@ packages:
       '@biomejs/wasm-web':
         optional: true
 
-  '@biomejs/wasm-nodejs@2.5.1':
-    resolution: {integrity: sha512-B7Hu8uWDPv/vXaxO7VSDXUGETa83Safgq/fSO2J/+DuDcGatXqFizIFakqC5hHQtXCB5SnOqVBG4RhYFqls7Zg==}
+  '@biomejs/wasm-nodejs@2.5.0':
+    resolution: {integrity: sha512-8yng33quWVLdyfNiYmr9Hq3fd9GTRqXAbhrsvpaw+iME1gd7oJBVcczucDFl/tsz69TnfrR42O/PDBoA8MSWYw==}
 
   '@changesets/apply-release-plan@7.1.1':
     resolution: {integrity: sha512-9qPCm/rLx/xoOFXIHGB229+4GOL76S4MC+7tyOuTsR6+1jYlfFDQORdvwR5hDA6y4FL2BPt3qpbcQIS+dW85LA==}
@@ -942,11 +942,11 @@ snapshots:
   '@biomejs/cli-win32-x64@2.5.1':
     optional: true
 
-  '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.1)':
+  '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.0)':
     optionalDependencies:
-      '@biomejs/wasm-nodejs': 2.5.1
+      '@biomejs/wasm-nodejs': 2.5.0
 
-  '@biomejs/wasm-nodejs@2.5.1': {}
+  '@biomejs/wasm-nodejs@2.5.0': {}
 
   '@changesets/apply-release-plan@7.1.1':
     dependencies:
