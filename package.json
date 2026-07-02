@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@biomejs/js-api": "6.0.0",
-    "@biomejs/wasm-nodejs": "2.5.0",
+    "@biomejs/wasm-nodejs": "2.5.2",
     "@xmldom/xmldom": "^0.9.10",
     "commander": "15.0.0",
     "glob": "13.0.6"
