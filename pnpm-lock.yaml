@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@biomejs/js-api':
         specifier: 6.0.0
-        version: 6.0.0(@biomejs/wasm-nodejs@2.5.0)
+        version: 6.0.0(@biomejs/wasm-nodejs@2.5.9)
       '@biomejs/wasm-nodejs':
-        specifier: 2.5.0
-        version: 2.5.0
+        specifier: 2.5.9
+        version: 2.5.9
       '@xmldom/xmldom':
         specifier: ^0.9.10
         version: 0.9.10
@@ -126,8 +126,8 @@ packages:
       '@biomejs/wasm-web':
         optional: true
 
-  '@biomejs/wasm-nodejs@2.5.0':
-    resolution: {integrity: sha512-8yng33quWVLdyfNiYmr9Hq3fd9GTRqXAbhrsvpaw+iME1gd7oJBVcczucDFl/tsz69TnfrR42O/PDBoA8MSWYw==}
+  '@biomejs/wasm-nodejs@2.5.9':
+    resolution: {integrity: sha512-Q+UqbmmcYGVOquYJr+xiR3LiteoKF5JsZxOLdTT3BJ2JD0JVb/y8xTZ6cjDTLTH8BBdtTkSXl0YizIqjSHqhcQ==}
 
   '@changesets/apply-release-plan@7.1.1':
     resolution: {integrity: sha512-9qPCm/rLx/xoOFXIHGB229+4GOL76S4MC+7tyOuTsR6+1jYlfFDQORdvwR5hDA6y4FL2BPt3qpbcQIS+dW85LA==}
@@ -393,10 +393,12 @@ packages:
   '@xmldom/xmldom@0.8.13':
     resolution: {integrity: sha512-KRYzxepc14G/CEpEGc3Yn+JKaAeT63smlDr+vjB8jRfgTBBI9wRj/nkQEO+ucV8p8I9bfKLWp37uHgFrbntPvw==}
     engines: {node: '>=10.0.0'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -942,11 +944,11 @@ snapshots:
   '@biomejs/cli-win32-x64@2.5.1':
     optional: true
 
-  '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.0)':
+  '@biomejs/js-api@6.0.0(@biomejs/wasm-nodejs@2.5.9)':
     optionalDependencies:
-      '@biomejs/wasm-nodejs': 2.5.0
+      '@biomejs/wasm-nodejs': 2.5.9
 
-  '@biomejs/wasm-nodejs@2.5.0': {}
+  '@biomejs/wasm-nodejs@2.5.9': {}
 
   '@changesets/apply-release-plan@7.1.1':
     dependencies:
