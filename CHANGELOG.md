@@ -1,5 +1,11 @@
 # @axah/wsdl-typegen
 
+## 3.0.1
+
+### Patch Changes
+
+- 5ce5150: Update dependencies and CI tooling: migrate to `pnpm/setup`, upgrade `changesets/action` to v2 and Changesets CLI to v3, bump TypeScript to 7, and pin Node 24.20.0 via `devEngines.runtime`.
+
 ## 3.0.0
 
 ### Major Changes
