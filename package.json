@@ -41,20 +41,23 @@
   },
   "dependencies": {
     "@biomejs/js-api": "6.0.0",
-    "@biomejs/wasm-nodejs": "2.5.0",
-    "@xmldom/xmldom": "^0.9.10",
+    "@biomejs/wasm-nodejs": "2.5.12",
+    "@xmldom/xmldom": "^0.9.12",
     "commander": "15.0.0",
     "glob": "13.0.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.1",
-    "@changesets/cli": "2.31.0",
-    "@tsconfig/node22": "^22.0.5",
+    "@biomejs/biome": "2.5.12",
+    "@changesets/cli": "3.0.2",
+    "@tsconfig/node22": "^22.0.6",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "24.13.2",
-    "soap": "1.9.3",
-    "tsx": "4.22.4",
-    "typescript": "6.0.3"
+    "@types/node": "26.4.1",
+    "soap": "1.11.0",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@12.3.4",
+  "devEngines": {
+    "runtime": { "name": "node", "version": "24.20.0", "onFail": "download" }
+  }
 }
