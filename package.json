@@ -52,7 +52,7 @@
     "@tsconfig/node22": "^22.0.6",
     "@tsconfig/strictest": "^2.0.8",
     "@types/node": "26.4.1",
-    "soap": "1.11.0",
+    "soap": "1.13.0",
     "tsx": "4.23.13",
     "typescript": "7.0.2"
   },
