@@ -144,8 +144,8 @@ importers:
         specifier: runtime:24.20.0
         version: runtime:24.20.0
       soap:
-        specifier: 1.11.0
-        version: 1.11.0
+        specifier: 1.13.2
+        version: 1.13.2
       tsx:
         specifier: 4.23.13
         version: 4.23.13
@@ -1001,8 +1001,8 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  soap@1.11.0:
-    resolution: {integrity: sha512-pMDzUm2cveHugkKR+WNt2PXWKBl0qwWdBUICpeaVEHyEg3BRjkGKn7qm3ZmO+9kmEv6osgk0doZKS2obk8Ui3A==}
+  soap@1.13.2:
+    resolution: {integrity: sha512-awiUYn5KQgjOez/M5PaiRFfLskuGOPgIufGPfgwy5W7SkY++COb7OSfy5hlcRIsDl2aCCLrsOJf7n+1sh6F/Fw==}
     engines: {node: '>=20.19.0'}
 
   tinyexec@1.3.1:
@@ -1641,7 +1641,7 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
-  soap@1.11.0:
+  soap@1.13.2:
     dependencies:
       axios: 1.20.0(debug@4.4.3)
       axios-ntlm: 1.4.6(debug@4.4.3)
