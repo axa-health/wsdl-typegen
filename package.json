@@ -44,7 +44,7 @@
     "@biomejs/wasm-nodejs": "2.5.12",
     "@xmldom/xmldom": "^0.9.12",
     "commander": "15.0.0",
-    "glob": "13.0.6"
+    "glob": "14.0.4"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.12",
