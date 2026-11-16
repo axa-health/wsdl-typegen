@@ -132,8 +132,8 @@ importers:
         specifier: 3.0.2
         version: 3.0.2
       '@tsconfig/node22':
-        specifier: ^22.0.6
-        version: 22.0.6
+        specifier: ^22.0.7
+        version: 22.0.7
       '@tsconfig/strictest':
         specifier: ^2.0.8
         version: 2.0.8
@@ -477,8 +477,8 @@ packages:
     resolution: {integrity: sha512-pOr5+q1fLYKwFN3LAJuGZEnfXDcQ73zqgDHMtGy+K+uIoUqyY+6MeDCWFwfu+4EFuq76I5EPFofoNAI+Bmmq4A==}
     engines: {node: '>=22.13'}
 
-  '@tsconfig/node22@22.0.6':
-    resolution: {integrity: sha512-/5thavHAnWDZwH2H6eEn/T8pBEBhtuKaWGMslsj82kJfvzQgOgEMK7X4goBbIUjgVtAzPTtM9Ml64LA0uxO6Iw==}
+  '@tsconfig/node22@22.0.7':
+    resolution: {integrity: sha512-xnYM5q+HTeLm+jRBIB7Mu61OyOmNpgzPmJuhwPODSyITDPIWVK2TXxn/+O5fJ4n/P0u/gPsgSyPw/Dl3Cz/L4g==}
 
   '@tsconfig/strictest@2.0.8':
     resolution: {integrity: sha512-XnQ7vNz5HRN0r88GYf1J9JJjqtZPiHt2woGJOo2dYqyHGGcd6OLGqSlBB6p1j9mpzja6Oe5BoPqWmeDx6X9rLw==}
@@ -1306,7 +1306,7 @@ snapshots:
 
   '@pnpm/deps.graph-sequencer@1100.0.1': {}
 
-  '@tsconfig/node22@22.0.6': {}
+  '@tsconfig/node22@22.0.7': {}
 
   '@tsconfig/strictest@2.0.8': {}
 
